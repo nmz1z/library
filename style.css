@@ -1,0 +1,98 @@
+*{
+  /* border: red 1px solid; */
+  box-sizing: border-box;
+}
+body, html{
+  margin: 0;
+  padding: 0;
+}
+html{
+  --bg: black;
+  --hla: red;
+  --hlb: rgb(170, 0, 0);
+  --hlc: rgb(85, 0, 0);
+  --mask: rgba(128, 128, 128, 0.486);
+}
+main{
+  display: flex;
+  justify-content: center;
+}
+
+.modal__mask{
+  top: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--mask);
+  z-index: 1;
+}
+.modal__window{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  border: cyan 1px solid;
+  width: 30%;
+  min-width: 300px;
+  min-height: 500px;
+  z-index: 2;
+}
+
+.container{
+  flex-grow: 0;
+  width: 90%;
+  max-width: 900px;
+  display: flex;
+}
+.book{
+  border: 1px solid black;
+  width: 300px;
+  aspect-ratio: 3/5;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.book__title{
+  margin-bottom: 0;
+}
+
+.book__author{
+  margin-top: 0;
+}
+
+.book__cover{
+  border: 1px solid black;
+  height: 50%;
+  flex-grow: 0;
+  max-width: 90%;
+  aspect-ratio: 8/9;
+}
+
+.book__pages-header{
+  font-weight: bolder;
+  margin-bottom: 0;
+}
+
+.book__pages-number{
+  margin-top: 0;
+}
+
+.book__buttons-container{
+  display: flex;
+  margin: 5px 5px 0 auto;
+}
+.button__read-button{
+  margin-bottom: 5px;
+}
+
+/* TEMPORARY */
+button{
+  width: fit-content;
+  height: fit-content;
+}
