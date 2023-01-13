@@ -96,6 +96,11 @@ main{
   color: var(--hlb);
 }
 
+.book__buttons-container{
+  display: flex;
+  margin: 5px 5px 0 auto;
+}
+
 .book__title{
   margin-bottom: 0;
 }
@@ -128,10 +133,25 @@ main{
   margin-top: 0;
 }
 
-.book__buttons-container{
+.book__pages-ui{
+  width: 80%;
   display: flex;
-  margin: 5px 5px 0 auto;
+  flex-direction: row;
+  border: 1px solid var(--hla);
 }
+.pages__read, .pages__total{
+  width: 50%;
+}
+.pages__button{
+  width: 20%;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+
+   opacity: 1;
+
+}
+
 .button__read-button{
   margin-bottom: 5px;
 }
