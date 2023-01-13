@@ -1,7 +1,5 @@
 // load books array
 
-// draw books in DOM based on array
-
 // ADD:
     // open modal
     // save
@@ -21,6 +19,7 @@ function openModal(flag, object){
     modalWindow.image.value = object.image;
     modalWindow.pages.value = object.pages;
     modalWindow.validator.textContent = '';
+    //
   }else{
     modalWindow.header.textContent = "NEW BOOK"
   }
@@ -34,27 +33,45 @@ function closeModal(){
 
 // function saveBook
 function saveBook(inputs, book){
+
 }
 
 // add book
-function addBook(){
+function addBook(config){
   const book = {
-    body,
-    title,
-    author,
-    image,
-    pages,
+    data: {
+      title,
+      author,
+      image,
+      pages,
+    },
+    // methods? edit, delete
   }
-  return book;
+  // save book in storage
+  addToLocalStorage(book);
+  // draw book in dom
+  drawBook(book);
 }
 
 // function toggleRead
 
-// function drawBookInDOM()
+// function drawBook()
 /*
+// .book
+  // .book__buttons-container
+    // button.book__edit-button
+      // i.fa-solid fa-pencil
+    // button.book__remove-button
+      // fa-regular fa-circle-xmark
+  // h2.book__title
+  // h3.book__author
+  // .book__cover
+    // img.book__cover-image
+
 
 */
 
+// STORAGE
 // function loadStorage
 function loadLocalStorage(){
   return localStorage.getItem("library")
@@ -62,17 +79,29 @@ function loadLocalStorage(){
   : [];
 }
 
+function addToLocalStorage(book){
+  let library = loadLocalStorage();
+  library.push(book);
+  localStorage.setItem("library", JSON.stringify(library));
+}
+
 // -- OBJECTS
 
 const modalWindow = {
   body: document.querySelector('.modal__mask'),
-  title: document.getElementById('modal-title'),
-  author: document.getElementById('modal-author'),
-  image: document.getElementById('modal-image'),
+  // input
+  input: {
+    title: document.getElementById('modal-title'),
+    author: document.getElementById('modal-author'),
+    image: document.getElementById('modal-image'),
+    pages: document.getElementById('modal-pages'),
+  },
+  // text
   validator: document.getElementById('modal-validator'),
-  pages: document.getElementById('modal-pages'),
-  closeButton: document.getElementById('modal-close'),
   header: document.getElementById('modal-header'),
+  // ui
+  closeButton: document.getElementById('modal-close'),
+  confirmButton: document.getElementById('modal-confirm')
 }
 // -- VARS
 const booksContainer = document.querySelector('.container');
@@ -80,7 +109,9 @@ const addButton = document.querySelector('.button__add-book')
 // -- EVENTS
 addButton.addEventListener('click', () => {openModal('add')});
 modalWindow.closeButton.addEventListener('click', closeModal);
+modalWindow.confirmButton.addEventListener('click', () => {
 
+});
 // -- INIT
 
 
