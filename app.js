@@ -9,11 +9,12 @@
     // save
 
 // function setUpLibrary
+let globalId = 0;
 
 function openModal(flag, object){
-  if(flag === 'edit'){
+  modalWindow.mode = flag;
+  if(modalWindow.mode === 'edit'){
     modalWindow.header.textContent = "EDIT"
-    modalWindow.flag === flag;
     // load values
     modalWindow.author.value = object.author;
     modalWindow.title.value = object.title;
@@ -35,21 +36,24 @@ function closeModal(){
 // add book
 function addBook(config){
   const book = {
-      data:
-        {title,
-        author,
-        image,
-        pages,},
+      data:{
+        title: config.title.value,
+        author: config.author.value,
+        image: config.image.value,
+        pages: config.pages.value,
+      },
       status: {
         read: false,
         current: 0,
-      }
+      },
+      id: globalId,
     // methods? edit, delete
   }
   // save book in storage
   addToLocalStorage(book);
   // draw book in dom
   drawBook(book);
+  globalId ++;
 }
 
 /*
@@ -63,13 +67,14 @@ function editBook(config, object){
 function drawBook(book) {
 
 const config = book.data
+console.log(config)
 // .book
 const bookDiv = document.createElement('div');
-bookDiv.classList.add('.book');
+bookDiv.classList.add('book');
 booksContainer.appendChild(bookDiv)
   // .book__buttons-container
   const btnContainer = document.createElement('div');
-  bookDiv.classList.add('.book__buttons-container');
+  btnContainer.classList.add('book__buttons-container');
   bookDiv.appendChild(btnContainer);
     // button.book__edit-button
     const editBtn = document.createElement('button');
@@ -77,7 +82,8 @@ booksContainer.appendChild(bookDiv)
     btnContainer.appendChild(editBtn);
       // i.fa-solid fa-pencil
       const editIcon = document.createElement('i');
-      editIcon.classList.add('fa-solid fa-pencil');
+      editIcon.classList.add('fa-solid');
+      editIcon.classList.add('fa-pencil');
       editBtn.appendChild(editIcon);
     // button.book__remove-button
     const removeBtn = document.createElement('button');
@@ -85,7 +91,8 @@ booksContainer.appendChild(bookDiv)
     btnContainer.appendChild(removeBtn);
       // fa-regular fa-circle-xmark
       const removeIcon = document.createElement('i');
-      removeIcon.classList.add('fa-regular fa-circle-xmark');
+      removeIcon.classList.add('fa-regular');
+      removeIcon.classList.add('fa-circle-xmark');
       removeBtn.appendChild(removeIcon);
   // h2.book__title
   const title = document.createElement('h2');
@@ -98,8 +105,14 @@ booksContainer.appendChild(bookDiv)
   author.textContent = config.author;
   bookDiv.appendChild(author);
   // .book__cover
-  const cover = document.createElement('')
+  const cover = document.createElement('div');
+  cover.classList.add('book__cover');
+  bookDiv.appendChild(cover);
     // img.book__cover-image
+    const image = document.createElement('h2');
+    // image.classList.add('book__cover-image');
+    image.src = config.image;
+    bookDiv.appendChild(image);
   // p.book__pages-ui
     // input.pages__read
     // span.pages__divider{of}
@@ -107,6 +120,10 @@ booksContainer.appendChild(bookDiv)
   // button.book__read-button
 
 // events
+removeBtn.addEventListener('click', (e) => {
+  e.target.parentElement.parentElement.parentElement.remove();
+  // removeFromStorage(book);
+});
 
 }
 
@@ -121,6 +138,13 @@ function loadLocalStorage(){
 function addToLocalStorage(book){
   let library = loadLocalStorage();
   library.push(book);
+  localStorage.setItem("library", JSON.stringify(library));
+}
+
+function removeFromStorage(book){
+  let library = loadLocalStorage();
+  // filter
+
   localStorage.setItem("library", JSON.stringify(library));
 }
 
@@ -141,10 +165,10 @@ const modalWindow = {
   closeButton: document.getElementById('modal-close'),
   confirmButton: document.getElementById('modal-confirm'),
   // other
-  mode,
+  mode: '',
   references: {
-    dom,
-    obj,
+    dom: null,
+    obj: null,
   }
 };
 
@@ -159,6 +183,7 @@ modalWindow.confirmButton.addEventListener('click', () => {
     // editBook(modalWindow.input, object);
   }else{
     addBook(modalWindow.input);
+    closeModal();
   }
 });
 // -- INIT

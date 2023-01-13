@@ -111,11 +111,10 @@ main{
 
 .book__cover{
   border: 1px solid black;
-  height: 60%;
+  height: 250px;
+  width: 180px;
   flex-grow: 0;
-  max-width: 90%;
-  aspect-ratio: 3/4;
-
+  flex-shrink: 0;
 }
 .book__cover-image{
   width: 100%;
