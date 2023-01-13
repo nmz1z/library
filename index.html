@@ -46,7 +46,7 @@
       <!-- BOOK -->
       <div class="book">
         <div class="book__buttons-container">
-          <button class="edit-button">
+          <button class="book__edit-button">
             <i class="fa-solid fa-pencil"></i>
           </button>
           <button class="book__remove-button">
@@ -60,7 +60,12 @@
             src="https://images.ctfassets.net/usf1vwtuqyxm/24YWmI4UcyoMwj7wdKrEcL/374de1941927db12bd844fb197eab11f/English_Harry_Potter_3_Epub_9781781100233.jpg?w=914&q=70&fm=jpg"
             alt="" class="book__cover-image">
         </div>
-        <p class="book__pages-header">Pages: <span class="regular-font">199</span></p>
+        <p class="book__pages-header">Pages</p>
+        <div class="book__pages-ui">
+          <input type="number" class="pages__read" min="0" ></input>
+          <span class="pages__divider">of</span>
+          <div class="pages__total"></div>
+        </div>
         <button class="book__read-button">Read</button>
       </div>
       <!-- xxx -->
