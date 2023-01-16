@@ -9,19 +9,27 @@
     // save
 
 // function setUpLibrary
-let globalId = 0;
 
-function openModal(flag, object){
+function setupLibrary(){
+  const library = loadLocalStorage();
+  if(library.length > 0){
+    library.forEach(book => drawBook(book));
+  }
+}
+
+
+function openModal(flag, object, e){
   modalWindow.mode = flag;
   if(modalWindow.mode === 'edit'){
-    modalWindow.header.textContent = "EDIT"
+    // set references
+    modalWindow.ref.obj = object
+    modalWindow.ref.dom = e.target.parentElement.parentElement.parentElement
     // load values
-    modalWindow.author.value = object.author;
-    modalWindow.title.value = object.title;
-    modalWindow.image.value = object.image;
-    modalWindow.pages.value = object.pages;
-    modalWindow.validator.textContent = '';
-    //
+    for (let key in modalWindow.input) {
+      modalWindow.input[key].value = object.data[key];
+    }
+    // ui
+    modalWindow.header.textContent = "EDIT"
   }else{
     modalWindow.header.textContent = "NEW BOOK"
   }
@@ -31,6 +39,9 @@ function openModal(flag, object){
 function closeModal(){
   modalWindow.body.classList.toggle('hidden');
   // reset values
+  for (let key in modalWindow.input) {
+    modalWindow.input[key].value = '';
+  }
 }
 
 // add book
@@ -46,14 +57,40 @@ function addBook(config){
         read: false,
         current: 0,
       },
-      id: globalId,
+      id: new Date().getTime().toString(),
     // methods? edit, delete
   }
   // save book in storage
   addToLocalStorage(book);
   // draw book in dom
   drawBook(book);
-  globalId ++;
+}
+
+function editBook(){
+  const object = modalWindow.ref.obj;
+  let domElement = modalWindow.ref.dom;
+  // console.log(dom);
+  // update DOM
+  domElement.querySelector('.book__title').textContent = modalWindow.input.title.value
+  domElement.querySelector('.book__author').textContent = modalWindow.input.author.value
+  domElement.querySelector('.book__cover-image').src = modalWindow.input.image.value
+  // dom.querySelector('.pages__total').textContent = modalWindow.input.pages.value
+  // update OBJ
+    // find ind localStorage
+  const storage = loadLocalStorage();
+  let library = storage.map(function (item){
+    if (item.id === object.id){
+        item.data.title = modalWindow.input.title.value;
+        item.data.author = modalWindow.input.author.value;
+        item.data.image = modalWindow.input.image.value;
+        item.data.pages = modalWindow.input.pages.value;
+      }
+      return item;
+    });
+  localStorage.setItem("library", JSON.stringify(library));
+  closeModal();
+
+  // save in storage
 }
 
 /*
@@ -109,10 +146,11 @@ booksContainer.appendChild(bookDiv)
   cover.classList.add('book__cover');
   bookDiv.appendChild(cover);
     // img.book__cover-image
-    const image = document.createElement('h2');
+    const image = document.createElement('img');
+    image.classList.add('book__cover-image')
     // image.classList.add('book__cover-image');
     image.src = config.image;
-    bookDiv.appendChild(image);
+    cover.appendChild(image);
   // p.book__pages-ui
     // input.pages__read
     // span.pages__divider{of}
@@ -120,12 +158,18 @@ booksContainer.appendChild(bookDiv)
   // button.book__read-button
 
 // events
-removeBtn.addEventListener('click', (e) => {
+removeBtn.addEventListener('click', e => {
   e.target.parentElement.parentElement.parentElement.remove();
-  // removeFromStorage(book);
+  removeFromStorage(book);
+});
+
+editBtn.addEventListener('click', (e) => {
+  openModal('edit', book, e);
 });
 
 }
+
+// SETUP FUNCTION
 
 // STORAGE
 // function loadStorage
@@ -143,9 +187,11 @@ function addToLocalStorage(book){
 
 function removeFromStorage(book){
   let library = loadLocalStorage();
-  // filter
-
-  localStorage.setItem("library", JSON.stringify(library));
+  console.log(book.id);
+  const storage = library.filter(
+    element => book.id !== element.id
+  );
+  localStorage.setItem("library", JSON.stringify(storage));
 }
 
 // -- OBJECTS
@@ -166,7 +212,7 @@ const modalWindow = {
   confirmButton: document.getElementById('modal-confirm'),
   // other
   mode: '',
-  references: {
+  ref: {
     dom: null,
     obj: null,
   }
@@ -178,16 +224,13 @@ const addButton = document.querySelector('.button__add-book')
 // -- EVENTS
 addButton.addEventListener('click', () => {openModal('add')});
 modalWindow.closeButton.addEventListener('click', closeModal);
-modalWindow.confirmButton.addEventListener('click', () => {
+modalWindow.confirmButton.addEventListener('click', (e) => {
   if(modalWindow.mode === 'edit'){
-    // editBook(modalWindow.input, object);
+    editBook();
   }else{
     addBook(modalWindow.input);
     closeModal();
   }
 });
 // -- INIT
-
-
-// loadStorage
-// setUpLibrary
+setupLibrary();
