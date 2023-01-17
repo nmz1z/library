@@ -6,12 +6,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500&family=Roboto+Slab&display=swap"
+    rel="stylesheet">
   <script src="https://kit.fontawesome.com/1d631eaa19.js" crossorigin="anonymous"></script>
   <title>Document</title>
 </head>
 
 <body>
-<!-- MODAL WINDOW -->
+  <!-- MODAL WINDOW -->
   <div class="modal__mask hidden">
     <div class="modal__window">
       <button class="modal__close-button" id="modal-close">
@@ -39,31 +43,43 @@
     <div class="container">
       <!-- injected elements -->
       <div class="book">
+        <div class="page1"></div>
+        <div class="page2"></div>
+        <div class="page3"></div>
+        <div class="back-cover"></div>
         <div class="book__buttons-container">
           <button class="book__edit-button">
-            <i class="fa-solid fa-pencil"></i>
+            <i class="fa-solid fa-pen"></i>
           </button>
           <button class="book__delete-button">
-            <i class="fa-regular fa-circle-xmark"></i>
+            <i class="fa-solid fa-trash"></i>
           </button>
         </div>
         <div class="book__header">
-          <h3 class="book__title">Title</h3>
-          <p class="book__author">Author</p>
+          <h3 class="book__title">The Lord of the Rings</h3>
+          <p class="book__author">J. R. R. Tolkien</p>
         </div>
         <div class="book__cover"><img class="book__cover-image"
             src="https://m.media-amazon.com/images/I/51kfFS5-fnL._AC_SY1000_.jpg"></div>
-        <p class="book__pages-header">Pages</p>
+
         <div class="book__pages-ui">
+          <p class="book__pages-read">Read:</p>
           <input type="number" min="0" max="11" class="pages__read">
-          <span class="pages__divider">of</span>
-          <div class="pages__total">11</div>
+          <div class="pages__progress">
+            <div class="pages__progress-read">11</div>
+            <div class="pages__progress-bar">
+              <div class="progress-bar__progress"></div>
+            </div>
+            <div class="pages__progress-total">1150</div>
+
+          </div>
+          <div class="pages__progress-status">In progress</div>
         </div>
-        <button class="button__read-button">Read</button>
       </div>
-      </div>
-      </main>
-      <footer></footer>
-      </body>
-      <script src="app.js"></script>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+<script src="app.js"></script>
+
 </html>
