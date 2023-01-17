@@ -17,7 +17,7 @@
       <button class="modal__close-button" id="modal-close">
         <i class="fa-regular fa-circle-xmark"></i>
       </button>
-      <h2 class="modal__header" id="modal-header">New book</h2>
+      <h2 class="modal" id="modal-header">New book</h2>
       <p class="modal__text">Title</p>
       <input type="text" class="modal__input-text" id="modal-title">
       <p class="modal__text">Author</p>
@@ -38,9 +38,32 @@
     <button class="button__add-book">ADD</button>
     <div class="container">
       <!-- injected elements -->
-    </div>
-  </main>
-  <footer></footer>
-</body>
-<script src="app.js"></script>
+      <div class="book">
+        <div class="book__buttons-container">
+          <button class="book__edit-button">
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+          <button class="book__delete-button">
+            <i class="fa-regular fa-circle-xmark"></i>
+          </button>
+        </div>
+        <div class="book__header">
+          <h3 class="book__title">Title</h3>
+          <p class="book__author">Author</p>
+        </div>
+        <div class="book__cover"><img class="book__cover-image"
+            src="https://m.media-amazon.com/images/I/51kfFS5-fnL._AC_SY1000_.jpg"></div>
+        <p class="book__pages-header">Pages</p>
+        <div class="book__pages-ui">
+          <input type="number" min="0" max="11" class="pages__read">
+          <span class="pages__divider">of</span>
+          <div class="pages__total">11</div>
+        </div>
+        <button class="button__read-button">Read</button>
+      </div>
+      </div>
+      </main>
+      <footer></footer>
+      </body>
+      <script src="app.js"></script>
 </html>
