@@ -9,11 +9,14 @@ function openModal(flag, object, e){
   modalWindow.mode = flag;
   if(modalWindow.mode === 'edit'){
     // set references
-    modalWindow.ref.obj = object
-    modalWindow.ref.dom = e.currentTarget.parentElement.parentElement
+    // retrieve from localStorage
+    const storage = loadLocalStorage();
+    const book = storage.find(item => item.id === object.id);
+    modalWindow.ref.obj = book;
+    modalWindow.ref.dom = e.currentTarget.parentElement.parentElement;
     // load values
     for (let key in modalWindow.input) {
-      modalWindow.input[key].value = object.data[key];
+      modalWindow.input[key].value = book.data[key];
     }
     // ui
     modalWindow.header.textContent = "EDIT"
@@ -87,6 +90,8 @@ function authenticate(){
     if(!modalWindow.input[key].value){
       modalWindow.input[key].style.backgroundColor = 'red';
       auth = false;
+    }else{
+      modalWindow.input[key].style.backgroundColor = 'white'
     }
   }
   return auth;
@@ -122,16 +127,22 @@ function drawBook(book) {
   removeIcon.classList.add('fa-regular');
   removeIcon.classList.add('fa-circle-xmark');
   removeBtn.appendChild(removeIcon);
+
+  // .book__header
+  const bookHeader = document.createElement('div');
+  bookHeader.classList.add('book__header');
+  bookDiv.appendChild(bookHeader)
   // h2.book__title
   const title = document.createElement('h3');
   title.classList.add('book__title');
   title.textContent = config.title;
-  bookDiv.appendChild(title);
+  bookHeader.appendChild(title);
   // h3.book__author
   const author = document.createElement('p');
   author.classList.add('book__author');
   author.textContent = config.author;
-  bookDiv.appendChild(author);
+  bookHeader.appendChild(author);
+
   // .book__cover
   const cover = document.createElement('div');
   cover.classList.add('book__cover');
@@ -139,9 +150,10 @@ function drawBook(book) {
   // img.book__cover-image
   const image = document.createElement('img');
   image.classList.add('book__cover-image')
-  // image.classList.add('book__cover-image');
   image.src = config.image;
   cover.appendChild(image);
+
+  // pages header
   const pagesHeader = document.createElement('p');
   pagesHeader.classList.add('book__pages-header');
   pagesHeader.textContent = 'Pages';
@@ -166,6 +178,7 @@ function drawBook(book) {
   // .pages__total
   const pagesTotal = document.createElement('div');
   pagesTotal.classList.add('pages__total');
+  pagesTotal.textContent = book.data.pages;
   pagesUI.appendChild(pagesTotal);
   // button.book__read-button
   const readBtn = document.createElement('button');
@@ -180,10 +193,15 @@ function drawBook(book) {
   });
 
   editBtn.addEventListener('click', (e) => {openModal('edit', book, e);});
-  pagesRead.addEventListener('change', (e) => {updateRead(book, e.currentTarget.value)})
+  pagesRead.addEventListener('change', (e) => {updateReadPages(book, e)})
 }
 
-function updateRead(book, value){
+function updateReadPages(book, e){
+  let value = e.currentTarget.value;
+  if(value > book.data.pages){
+    value = book.data.pages;
+    e.currentTarget.value = book.data.pages;
+  }
   let storage = loadLocalStorage().map(
     element => {
       if(element.id === book.id){
@@ -240,6 +258,10 @@ const modalWindow = {
   }
 };
 
+function addSamples(){
+
+}
+
 // vars
 const booksContainer = document.querySelector('.container');
 const addButton = document.querySelector('.button__add-book');
@@ -255,5 +277,9 @@ modalWindow.confirmButton.addEventListener('click', (e) => {
   }
 });
 
+localStorage.setItem('firstAccess', true)
 // init
 setupLibrary();
+if(localStorage.getItem('firstAcess') === true){
+
+}
