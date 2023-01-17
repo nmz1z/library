@@ -8,8 +8,6 @@ function setupLibrary(){
 function openModal(flag, object, e){
   modalWindow.mode = flag;
   if(modalWindow.mode === 'edit'){
-    // set references
-    // retrieve from localStorage
     const storage = loadLocalStorage();
     const book = storage.find(item => item.id === object.id);
     modalWindow.ref.obj = book;
@@ -64,7 +62,7 @@ function editBook(){
   domElement.querySelector('.book__title').textContent = modalWindow.input.title.value;
   domElement.querySelector('.book__author').textContent = modalWindow.input.author.value;
   domElement.querySelector('.book__cover-image').src = modalWindow.input.image.value;
-  domElement.querySelector('.pages__total').textContent = modalWindow.input.pages.value;
+  domElement.querySelector('.pages__progress-total').textContent = modalWindow.input.pages.value;
   domElement.querySelector('.pages__read').max = modalWindow.input.pages.value;
 
   // update object in localStorage
@@ -175,9 +173,9 @@ function drawBook(book) {
   pagesDivider.classList.add('pages__divider');
   pagesDivider.textContent = 'of'
   pagesUI.appendChild(pagesDivider);
-  // .pages__total
+  // .pages__progress-total
   const pagesTotal = document.createElement('div');
-  pagesTotal.classList.add('pages__total');
+  pagesTotal.classList.add('pages__progress-total');
   pagesTotal.textContent = book.data.pages;
   pagesUI.appendChild(pagesTotal);
   // button.book__read-button
@@ -185,13 +183,13 @@ function drawBook(book) {
   readBtn.classList.add('pages__divider');
   readBtn.textContent = 'Read'
   bookDiv.appendChild(readBtn);
+
   // events
   removeBtn.addEventListener('click', e => {
     e.currentTarget.parentElement.parentElement.remove();
     console.log(e.currentTarget)
     removeFromStorage(book);
   });
-
   editBtn.addEventListener('click', (e) => {openModal('edit', book, e);});
   pagesRead.addEventListener('change', (e) => {updateReadPages(book, e)})
 }
@@ -258,7 +256,7 @@ const modalWindow = {
   }
 };
 
-function addSamples(){
+function addSample(array){
 
 }
 
@@ -277,9 +275,27 @@ modalWindow.confirmButton.addEventListener('click', (e) => {
   }
 });
 
-localStorage.setItem('firstAccess', true)
+// sample
+
+// const sample = [
+//   {
+//       data:{
+//         title: config.title.value,
+//         author: config.author.value,
+//         image: config.image.value,
+//         pages: config.pages.value,
+//       },
+//       status: {
+//         read: false,
+//         current: 0,
+//       },
+//       id: 0x1,
+//   },
+// ]
+
 // init
 setupLibrary();
-if(localStorage.getItem('firstAcess') === true){
-
-}
+if(!localStorage.getItem('accessed')){
+  addSample(sample);
+  localStorage.setItem('accessed', true);
+};
