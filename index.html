@@ -29,7 +29,7 @@
       <p class="modal__text">Image link (optional)</p>
       <input type="text" class="modal__input-text" id="modal-image">
       <p class="modal__text">Pages</p>
-      <input type="number" min="1" class="modal__input-number" id="modal-pages">
+      <input type="number" min="1" max="9999" class="modal__input-number" id="modal-pages">
       <button class="modal__confirm-button" id="modal-confirm">
         CONFIRM
       </button>
@@ -59,12 +59,22 @@
           <h3 class="book__title">The Lord of the Rings</h3>
           <p class="book__author">J. R. R. Tolkien</p>
         </div>
-        <div class="book__cover"><img class="book__cover-image"
-            src="https://m.media-amazon.com/images/I/51kfFS5-fnL._AC_SY1000_.jpg"></div>
-
+        <div class="book__cover">
+          <img class="book__cover-image"
+            src="https://m.media-amazon.com/images/I/51kfFS5-fnL._AC_SY1000_.jpg"
+            />
+        </div>
         <div class="book__pages-ui">
           <p class="book__pages-read">Read:</p>
-          <input type="number" min="0" max="11" class="pages__read">
+          <div class="pages__read">
+            <button class="pages-read__minus-btn">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <input type="number" min="0" max="11" class="pages__read-input">
+            <button class="pages-read__plus-btn">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
           <div class="pages__progress">
             <div class="pages__progress-read">11</div>
             <div class="pages__progress-bar">
