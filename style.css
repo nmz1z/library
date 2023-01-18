@@ -4,22 +4,23 @@
   box-sizing: border-box;
 }
 :root{
-  --bg: rgb(0, 0, 0);
+  --bg: rgba(0, 0, 0, 0.95);
   --book: rgba(112, 112, 112, 0.418);
-  --hla: rgb(17, 16, 17);
+  --hla: rgb(198, 198, 198);
   --hlb: rgba(209, 209, 209, 0.882);
   --hlc: rgb(20, 20, 20);
   --mask: rgba(3, 3, 3, 0.644);
 
-  --grad1: rgba(35, 35, 35, 0.925);
-  --grad2: rgba(35, 35, 35, 0.8);
+  --grad1: rgba(20, 20, 20, 0.95);
+  --grad2: rgba(20, 20, 20, 0.75);
 }
 body, html{
   margin: 0;
   padding: 0;
 }
-html{
-  background-color: var(--bg);
+body{
+  background: linear-gradient(360deg, var(--bg) 20%, var(--bg) 50%),
+  url(background.jpg);
 }
 main{
   display: flex;
@@ -27,6 +28,11 @@ main{
   align-items: center;
 }
 
+.header{
+  text-align: center;
+  color: var(--hlb);
+  font-size: x-large;
+}
 /* MODAL */
 .hidden{
   visibility: hidden;
@@ -89,13 +95,11 @@ main{
 }
 
 .container{
-  flex-grow: 0;
-  flex-wrap: wrap;
-  width: 90%;
-  max-width: 1000px;
-  display: flex;
-  gap: 30px;
-  justify-content: center;
+  padding-left: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(345px, 1fr));
+  max-width: 90%;
+  row-gap: 45px;
 }
 
 /* __ BOOK ___ */
@@ -111,12 +115,12 @@ main{
   text-align: center;
   align-items: center;
   border-color: rgba(100, 100, 100, 0.384);
-  border-style: outset;
-  border-width: 3px 3px 1px 1px ;
+  border-style: solid;
+  border-width: 3px 3px 0.5px 0.5px ;
   border-radius: 5px;
 
   background: rgb(255, 0, 0);
-  background: linear-gradient(360deg, var(--grad1) 20%, var(--grad2) 50%, var(--grad1) 80%);
+  background: linear-gradient(360deg, var(--grad1) 15%, var(--grad2) 50%, var(--grad1) 85%);
   color: var(--hlb);
 }
 .page1,
@@ -129,31 +133,28 @@ main{
   background-color: rgb(167, 156, 132);
   border: 1px rgba(75, 75, 59, 0.25) solid;
   border-right: 1px rgba(49, 49, 37, 0.446) solid;
-  border-radius: 5px;
+  border-radius: 3px;
   height: 100%;
   position: absolute;
 }
 .page1{
   z-index: -1;
-  /* background-color: rgb(207, 207, 152); */
-  transform: translate(6px, -7px);
+  transform: translate(5px, -6px);
 }
 .page2{
   z-index: -2;
-  /* background-color: rgb(183, 183, 132); */
-  transform: translate(10px, -11px);
+  transform: translate(9px, -10px);
 }
 .page3{
   z-index: -3;
-  /* background-color: rgb(163, 163, 125); */
-  transform: translate(14px, -15px);
+  transform: translate(13px, -14px);
 }
 .back-cover{
   z-index: -4;
   width: calc(100% + 8px);
-  background-color: rgb(83, 82, 82);
-  transform: translate(12px, -19px);
-  /* box-shadow: 0px 0px 7px 5px rgba(235, 235, 235, 0.48); */
+  background-color: rgb(63, 63, 63);
+  transform: translate(11px, -18px);
+
 }
 
 .book__buttons-container{
@@ -208,7 +209,7 @@ main{
   height: 100%;
   object-fit: cover;
   border-radius: 5px;
-  background-color: rgb(199, 199, 199);
+  background-color: rgb(21, 21, 21);
 }
 
 .book__pages-header{
@@ -256,15 +257,16 @@ main{
   padding: 0;
   background-color: unset;
   border: unset;
-  font-size: larger;
+  font-size: medium;
+  color: var(--hlb);
   cursor: pointer;
 }
-.pages-read__plus-btn{
+/* .pages-read__plus-btn{
   color: rgb(26, 170, 26);
 }
 .pages-read__minus-btn{
   color: red;
-}
+} */
 
 .pages__progress{
   height: 15px;
