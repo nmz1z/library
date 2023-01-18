@@ -3,6 +3,7 @@
   font-family: 'Roboto Slab', serif;
   box-sizing: border-box;
 }
+
 :root{
   --bg: rgba(0, 0, 0, 0.95);
   --book: rgba(112, 112, 112, 0.418);
@@ -20,7 +21,7 @@ body, html{
 }
 body{
   background: linear-gradient(360deg, var(--bg) 20%, var(--bg) 50%),
-  url(background.jpg);
+  url(img/background.jpg);
 }
 main{
   display: flex;
@@ -280,10 +281,15 @@ main{
 }
 
 .pages__progress-bar{
+  display: flex;
   height: 100%;
   width: 60%;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.753);
+}
+.progress-bar__progress{
+  height: 100%;
+  background-color: rgb(22, 86, 169);
 }
 
 .pages__progress-read,
@@ -297,9 +303,11 @@ main{
 .pages__read-input::-webkit-inner-spin-button,
 .pages__read-input::-webkit-outer-spin-button {
   appearance: none;
+  -moz-appearance: textfield;
 }
-
-
+.pages__read-input {
+  -moz-appearance: textfield;
+ }
 
 /* TEMPORARY */
 button{

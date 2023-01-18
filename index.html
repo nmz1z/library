@@ -42,7 +42,7 @@
     <button class="button__add-book">ADD</button>
     <div class="container">
       <!-- injected elements -->
-      <div class="book">
+      <!-- <div class="book">
         <div class="page1"></div>
         <div class="page2"></div>
         <div class="page3"></div>
@@ -67,11 +67,15 @@
         <div class="book__pages-ui">
           <p class="book__pages-read">Read:</p>
           <div class="pages__read">
-            <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
             <button class="pages-read__minus-btn">
               <i class="fa-solid fa-minus"></i>
             </button>
-            <input type="number" min="0" max="11" class="pages__read-input">
+            <input
+            type="number"
+            class="pages__read-input"
+            onkeydown="if(event.key==='.' || event.key==='+'){event.preventDefault();}" onpaste="let pasteData = event.
+            clipboardData.getData('text'); if(pasteData){pasteData.replace(/[^0-9]*/g,'');} "
+            />
             <button class="pages-read__plus-btn">
               <i class="fa-solid fa-plus"></i>
             </button>
@@ -85,11 +89,11 @@
           </div>
           <div class="pages__progress-status">In progress</div>
         </div>
-      </div>
+      </div> -->
     </div>
   </main>
   <footer></footer>
 </body>
+<script src="data/sample.js"></script>
 <script src="app.js"></script>
-
 </html>
