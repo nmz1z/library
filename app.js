@@ -63,7 +63,7 @@ function editBook(){
   domElement.querySelector('.book__author').textContent = modalWindow.input.author.value;
   domElement.querySelector('.book__cover-image').src = modalWindow.input.image.value;
   domElement.querySelector('.pages__progress-total').textContent = modalWindow.input.pages.value;
-  domElement.querySelector('.pages__read').max = modalWindow.input.pages.value;
+  domElement.querySelector('.pages__read-input').max = modalWindow.input.pages.value;
 
   // update object in localStorage
   const storage = loadLocalStorage();
@@ -160,13 +160,13 @@ function drawBook(book) {
   const pagesUI = document.createElement('div');
   pagesUI.classList.add('book__pages-ui');
   bookDiv.appendChild(pagesUI);
-  // input.pages__read
+  // input.pages__read-input
   const pagesRead = document.createElement('input');
   pagesRead.value = book.status.current;
   pagesRead.type = "number";
   pagesRead.min = "0"
   pagesRead.max = book.data.pages;
-  pagesRead.classList.add('pages__read');
+  pagesRead.classList.add('pages__read-input');
   pagesUI.appendChild(pagesRead);
   // span.pages__divider{of}
   const pagesDivider = document.createElement('span');
