@@ -5,6 +5,29 @@ function setupLibrary(){
   }
 }
 
+// > Modal window
+const modalWindow = {
+  body: document.querySelector('.modal__mask'),
+  // input
+  input: {
+    title: document.getElementById('modal-title'),
+    author: document.getElementById('modal-author'),
+    image: document.getElementById('modal-image'),
+    pages: document.getElementById('modal-pages'),
+  },
+  // text
+  header: document.getElementById('modal-header'),
+  // buttons
+  closeButton: document.getElementById('modal-close'),
+  confirmButton: document.getElementById('modal-confirm'),
+  // other
+  mode: '',
+  ref: {
+    dom: null,
+    obj: null,
+  }
+};
+
 function openModal(flag, object, e){
   modalWindow.mode = flag;
   if(modalWindow.mode === 'edit'){
@@ -16,7 +39,6 @@ function openModal(flag, object, e){
     for (let key in modalWindow.input) {
       modalWindow.input[key].value = book.data[key];
     }
-    // ui
     modalWindow.header.textContent = "EDIT"
   }else{
     modalWindow.header.textContent = "NEW BOOK"
@@ -44,8 +66,8 @@ function addBook(config){
         pages: config.pages.value,
       },
       status: {
-        read: false,
-        current: 0,
+        current: 'Plan to read',
+        pages: 0,
       },
       id: new Date().getTime().toString(),
   }
@@ -57,14 +79,12 @@ function addBook(config){
 function editBook(){
   const object = modalWindow.ref.obj;
   let domElement = modalWindow.ref.dom;
-
   // update DOM
   domElement.querySelector('.book__title').textContent = modalWindow.input.title.value;
   domElement.querySelector('.book__author').textContent = modalWindow.input.author.value;
   domElement.querySelector('.book__cover-image').src = modalWindow.input.image.value;
   domElement.querySelector('.pages__progress-total').textContent = modalWindow.input.pages.value;
   domElement.querySelector('.pages__read-input').max = modalWindow.input.pages.value;
-
   // update object in localStorage
   const storage = loadLocalStorage();
   let library = storage.map(function (item){
@@ -110,18 +130,10 @@ function drawBook(book) {
   bookDiv.classList.add('book');
   booksContainer.appendChild(bookDiv);
   // .page[n] + .back-cover
-  const page1 = document.createElement('div');
-  page1.classList.add('page1');
-  bookDiv.appendChild(page1);
-  const page2 = document.createElement('div');
-  page2.classList.add('page2');
-  bookDiv.appendChild(page2);
-  const page3 = document.createElement('div');
-  page3.classList.add('page3');
-  bookDiv.appendChild(page3);
-  const backCover = document.createElement('div');
-  backCover.classList.add('back-cover');
-  bookDiv.appendChild(backCover);
+  const page1 = setUpElement('div', 'page1', bookDiv);
+  const page2 = setUpElement('div', 'page2', bookDiv);
+  const page3 = setUpElement('div', 'page3', bookDiv);
+  const backCover = setUpElement('div', 'back-cover', bookDiv);
   // .book__buttons-container
   const btnContainer = document.createElement('div');
   btnContainer.classList.add('book__buttons-container');
@@ -174,22 +186,22 @@ function drawBook(book) {
   readText.classList.add('book__pages-read');
   readText.textContent = 'Read:';
   pagesUI.appendChild(readText);
-  // .pages__read
+
+  // 'Read' Section
   const pagesRead =  setUpElement('div', 'pages__read', pagesUI);
-  // .pages-read__minus-btn
+
   const minusBtn = setUpElement('button', 'pages-read__minus-btn', pagesRead);
-  // .fa-solid fa-minus
   const minusIcon = setUpElement('i', 'fa-solid fa-minus', minusBtn);
-  // input.pages__read-input
+
   const readInput = setUpElement('input', 'pages__read-input', pagesRead);
-  readInput.value = book.status.current;
+  readInput.value = book.status.pages;
   readInput.type = "number";
   readInput.min = "0"
   readInput.max = book.data.pages;
-  // .pages-read__plus-btn
+
   const plusBtn = setUpElement('button', 'pages-read__plus-btn', pagesRead);
-  // .fa-solid fa-plus
   const plusIcon = setUpElement('i', 'fa-solid fa-plus', plusBtn);
+
   // .pages__progress (@pagesUI)
   const pagesProgress = setUpElement('div', 'pages__progress', pagesUI);
   // .pages__progress-read
@@ -199,29 +211,49 @@ function drawBook(book) {
   const barContainer = setUpElement('div', 'pages__progress-bar', pagesProgress);
   //
   const barProgress = setUpElement('div', 'progress-bar__progress', barContainer);
+  barProgress.style.width = `${100*book.status.pages/book.data.pages}%`;
   // .pages__progress-total
   const progressTotal = setUpElement('div', 'pages__progress-total', pagesProgress);
   progressTotal.textContent = config.pages;
   // .pages__progress-status (@pagesUI)
   const status = setUpElement('div', 'pages__progress-status', pagesUI);
-  status.textContent = 'Plan to read'
-  // events
+  if(+book.status.pages === 0){
+    status.textContent = 'Plan to read';
+    status.style.color = 'red';
+  }else if(+book.status.pages >= +book.data.pages){
+    status.textContent = 'Finished';
+    status.style.color = 'green';
+  }else{
+    status.textContent = 'In progress';
+    status.style.color = 'goldenrod';
+  }
+  // draw events
   removeBtn.addEventListener('click', e => {
     e.currentTarget.parentElement.parentElement.remove();
     console.log(e.currentTarget)
     removeFromStorage(book);
   });
   editBtn.addEventListener('click', (e) => {openModal('edit', book, e);});
+
   readInput.addEventListener('change', (e) => {updateReadPages(book, e.currentTarget)});
+  // these 2 prevents unwanted input
+  readInput.addEventListener('paste', (e) =>{
+    let pasteData = e.clipboardData.getData('text');
+    if(pasteData){pasteData.replace(/[^0-9]*/g,'');}
+  });
+  readInput.addEventListener('keydown', (e) => {
+    if(e.key==='.' || e.key==='+' || e.key === '-'){e.preventDefault();}
+  });
+
   plusBtn.addEventListener('click', () => {
     readInput.value = +readInput.value + 1;
     updateReadPages(book, readInput);
   });
+
   minusBtn.addEventListener('click', () => {
     readInput.value = +readInput.value - 1;
     updateReadPages(book, readInput);
   });
-  // minusBtn.addEventListener();
 }
 
 function updateReadPages(book, target){
@@ -234,18 +266,54 @@ function updateReadPages(book, target){
     value = 0;
     target.value = 0;
   }
+
   let storage = loadLocalStorage().map(
     element => {
       if(element.id === book.id){
-        element.status.current = value;
+        element.status.pages = value;
       }
       return element;
     }
   );
   localStorage.setItem("library", JSON.stringify(storage));
+
+  updtadeProgressBar(target, +value, book.data.pages);
+  updateStatus(target, +value, book);
 }
 
-// > Storage Functions
+function updtadeProgressBar(target, current, total){
+  const ui = target.parentElement.parentElement;
+  const bar = ui.querySelector('.progress-bar__progress');
+  const progress = +(current/total) * 100
+  bar.style.width = `${progress}%`;
+}
+
+function updateStatus(target, current, book){
+
+  const status = target.parentElement.parentElement.querySelector('.pages__progress-status');
+  if(current === 0){
+    status.textContent = 'Plan to read';
+    status.style.color = 'red';
+  }else if(current >= book.data.pages){
+    status.textContent = 'Finished';
+    status.style.color = 'green';
+  }else{
+    status.textContent = 'In progress';
+    status.style.color = 'goldenrod';
+  }
+
+  let storage = loadLocalStorage()
+    .map(element => {
+        if(element.id === book.id){
+          element.status.current = status.textContent;
+        }
+        return element;
+    });
+  localStorage.setItem("library", JSON.stringify(storage));
+}
+
+
+// ** Storage Functions
 function loadLocalStorage(){
   return localStorage.getItem("library")
   ? JSON.parse(localStorage.getItem("library"))
@@ -267,34 +335,13 @@ function removeFromStorage(book){
   localStorage.setItem("library", JSON.stringify(storage));
 }
 
-// > Modal window
-const modalWindow = {
-  body: document.querySelector('.modal__mask'),
-  // input
-  input: {
-    title: document.getElementById('modal-title'),
-    author: document.getElementById('modal-author'),
-    image: document.getElementById('modal-image'),
-    pages: document.getElementById('modal-pages'),
-  },
-  // text
-  header: document.getElementById('modal-header'),
-  // buttons
-  closeButton: document.getElementById('modal-close'),
-  confirmButton: document.getElementById('modal-confirm'),
-  // other
-  mode: '',
-  ref: {
-    dom: null,
-    obj: null,
-  }
-};
-
 function addSample(array){
-
+  let library = loadLocalStorage();
+  library = [...sample];
+  localStorage.setItem("library", JSON.stringify(library));
 }
 
-// vars
+// const
 const booksContainer = document.querySelector('.container');
 const addButton = document.querySelector('.button__add-book');
 
@@ -309,27 +356,9 @@ modalWindow.confirmButton.addEventListener('click', (e) => {
   }
 });
 
-// sample
-
-// const sample = [
-//   {
-//       data:{
-//         title: config.title.value,
-//         author: config.author.value,
-//         image: config.image.value,
-//         pages: config.pages.value,
-//       },
-//       status: {
-//         read: false,
-//         current: 0,
-//       },
-//       id: 0x1,
-//   },
-// ]
-
-// init
-setupLibrary();
+// ** INIT
 if(!localStorage.getItem('accessed')){
   addSample(sample);
   localStorage.setItem('accessed', true);
 };
+setupLibrary();
