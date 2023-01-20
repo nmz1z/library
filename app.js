@@ -5,7 +5,76 @@ function setupLibrary(){
   }
 }
 
-// > Modal window
+// >> FILTERS
+let filters = ['All'];
+
+function handleFilterClick(event){
+  const filter = event.currentTarget.textContent;
+  if(filter == 'All'){
+    toggleAll(event.currentTarget);
+  }else{
+    toggleFilter(event.currentTarget);
+  }
+  if(filters.length > 2 || filters.length === 0){
+    const allBtn = event.currentTarget.parentElement.querySelector('.all');
+    toggleAll(allBtn);
+  }
+  redrawLibrary();
+}
+
+function toggleAll(target){
+  if(filters.includes('All')){
+    return;
+  }
+  filters = ['All'];
+  const buttons = target.parentElement.querySelectorAll('.filter');
+  for (const item of buttons){
+    item.classList.add('unselected');
+  }
+  target.classList.remove('unselected');
+}
+
+function toggleFilter(target){
+  // disable all
+  filters = filters.filter(item => item !== 'All');
+  target.parentElement.querySelector('.all').classList.add('unselected');
+
+  const filter = target.textContent;
+  target.classList.toggle('unselected');
+
+  if(filters.includes(filter)){
+    filters = filters.filter(item => item !== filter);
+  }else{
+    filters.push(filter);
+  }
+}
+
+function redrawLibrary(){
+  booksContainer.innerHTML = '';
+  const library = loadLocalStorage();
+  let drawArray = [];
+
+  if(filters.includes('All')){
+    setupLibrary();
+    return;
+  }
+
+  for (const filter of filters) {
+    const filteredArray = library.filter(
+      item => item.status.current === filter
+    );
+    drawArray = drawArray.concat(filteredArray);
+  }
+  drawArray.forEach(book => drawBook(book));
+}
+
+//events
+const filterButtons = document.querySelectorAll('.filter');
+for (const item of filterButtons) {
+  item.addEventListener('click', handleFilterClick);
+}
+
+// >> MODAL WINDOW
 const modalWindow = {
   body: document.querySelector('.modal__mask'),
   // input
@@ -67,7 +136,7 @@ function addBook(config){
         pages: config.pages.value,
       },
       status: {
-        current: 'Plan to read',
+        current: 'Not started',
         pages: 0,
       },
       id: new Date().getTime().toString(),
@@ -217,7 +286,7 @@ function drawBook(book) {
   // .pages__progress-status (@pagesUI)
   const status = setUpElement('div', 'pages__progress-status', pagesUI);
   if(+book.status.pages === 0){
-    status.textContent = 'Plan to read';
+    status.textContent = 'Not started';
     status.style.color = 'red';
   }else if(+book.status.pages >= +book.data.pages){
     status.textContent = 'Finished';
@@ -229,7 +298,6 @@ function drawBook(book) {
   // draw events
   removeBtn.addEventListener('click', e => {
     e.currentTarget.parentElement.parentElement.remove();
-    console.log(e.currentTarget)
     removeFromStorage(book);
   });
   editBtn.addEventListener('click', (e) => {openModal('edit', book, e);});
@@ -291,7 +359,7 @@ function updateStatus(target, current, book){
 
   const status = target.parentElement.parentElement.querySelector('.pages__progress-status');
   if(current === 0){
-    status.textContent = 'Plan to read';
+    status.textContent = 'Not started';
     status.style.color = 'red';
   }else if(current >= book.data.pages){
     status.textContent = 'Finished';
@@ -327,7 +395,6 @@ function addToLocalStorage(book){
 
 function removeFromStorage(book){
   let library = loadLocalStorage();
-  console.log(book.id);
   const storage = library.filter(
     element => book.id !== element.id
   );
