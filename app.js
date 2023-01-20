@@ -51,6 +51,7 @@ function closeModal(){
   // reset values
   for (let key in modalWindow.input) {
     modalWindow.input[key].value = '';
+    modalWindow.input[key].style.backgroundColor = 'white';
   }
 }
 
@@ -106,7 +107,7 @@ function authenticate(){
   for (const key in modalWindow.input) {
     if(key === 'image') continue;
     if(!modalWindow.input[key].value){
-      modalWindow.input[key].style.backgroundColor = 'red';
+      modalWindow.input[key].style.backgroundColor = 'rgb(180, 0, 0)';
       auth = false;
     }else{
       modalWindow.input[key].style.backgroundColor = 'white'
