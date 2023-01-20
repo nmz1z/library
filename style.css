@@ -1,16 +1,16 @@
 *{
-  /* border: red 1px solid; */
-  font-family: 'Roboto Slab', serif;
   box-sizing: border-box;
 }
 
 :root{
-  --bg: rgba(0, 0, 0, 0.95);
+  --bg: rgba(0, 0, 0, 0.935);
   --book: rgba(112, 112, 112, 0.418);
   --hla: rgb(198, 198, 198);
   --hlb: rgba(209, 209, 209, 0.882);
-  --hlc: rgb(20, 20, 20);
-  --mask: rgba(3, 3, 3, 0.644);
+  --hlc: rgb(34, 34, 34);
+
+  --mask: rgba(0, 0, 0, 0.798);
+  --modal: rgb(61, 61, 61);
 
   --grad1: rgba(20, 20, 20, 0.95);
   --grad2: rgba(20, 20, 20, 0.75);
@@ -20,6 +20,8 @@ body, html{
   padding: 0;
 }
 body{
+  font-family: 'Roboto Serif', serif;
+  font-weight: 400;
   background: linear-gradient(360deg, var(--bg) 20%, var(--bg) 50%),
   url(img/background.jpg);
 }
@@ -30,13 +32,96 @@ main{
 }
 
 .header{
-  text-align: center;
-  color: var(--hlb);
-  font-size: x-large;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto 90px;
+  padding: 0;
 }
+
+.header__bar{
+  margin-top: 15px;
+  padding-left: 15px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+.header__logo{
+  height: 60px;
+}
+.header__text{
+  margin: 5px auto 0 15px;
+  font-family: 'Roboto serif', serif;
+  color: var(--hlb);
+  font-size: 40px;
+}
+
+.header__menu{
+  min-width: 310px;
+  font-family: 'Roboto', sans-serif;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button__add-book{
+  margin-bottom: 15px;
+  padding: 10px;
+  cursor: pointer;
+  width: 150px;
+  border-radius: 5px;
+  border: unset;
+  background-color: rgba(212, 212, 212, 0.628);
+  font-family: 'Roboto', sans-serif;
+  font-weight: bolder;
+  font-size: large;
+  color: black;
+}
+
+.header-menu__filters{
+  gap: 15px;
+  min-width: 450px;
+  color: var(--hlb);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.filter-menu__text{
+  font-size: large;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+.filter{
+  cursor: pointer;
+  padding: 5px;
+  text-align: center;
+  border: 2px gray solid;
+  border-radius: 5px;
+  flex: 1;
+  font-size: medium;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.finished{
+  color: green;
+  border-color: green;
+}
+.in-progress{
+  color: goldenrod;
+  border-color: goldenrod;
+}
+.not-started{
+  color: rgb(180, 0, 0);
+  border-color: rgb(180, 0, 0);
+}
+
+
 /* MODAL */
 .hidden{
-  visibility: hidden;
+  /* visibility: hidden; */
 }
 .modal__mask{
   top: 0;
@@ -45,6 +130,7 @@ main{
   height: 100%;
   background-color: var(--mask);
   z-index: 1;
+  font-family: 'Roboto', 'sans-serif';
 }
 .modal__window{
   margin: 0;
@@ -61,9 +147,16 @@ main{
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
 
-  background-color: var(--bg);
+  border-radius: 10px;
+  background-color: var(--modal);
+}
+.modal__header{
+  margin-top: 4px;
+}
+.modal__window input{
+  border-radius: 5px;
 }
 .modal__text{
   font-weight: bolder;
@@ -79,6 +172,14 @@ main{
 }
 .modal__confirm-button{
   margin-top: 30px;
+  padding: 5px 10px;
+  font-family: 'Roboto', 'sans-serif';
+  font-size: large;
+  font-weight: bolder;
+}
+.modal__warning{
+  color: red;
+  font-weight: 300;
 }
 .modal__close-button{
   position: absolute;
@@ -89,11 +190,7 @@ main{
   font-weight: normal;
 }
 
-.button__add-book{
-  width: 100px;
-  height: 50px;
-  margin-bottom: 50px;
-}
+
 
 .container{
   padding-left: 30px;
@@ -107,7 +204,7 @@ main{
 
 .book{
 
-  width: 300px;
+  width: 280px;
   aspect-ratio: 3/4;
   position: relative;
   display: flex;
@@ -131,9 +228,9 @@ main{
   top: 0;
   left: 0;
   width: calc(100% + 2px);
-  background-color: rgb(167, 156, 132);
+  background-color: rgb(148, 134, 102);
   border: 1px rgba(75, 75, 59, 0.25) solid;
-  border-right: 1px rgba(49, 49, 37, 0.446) solid;
+  border-right: 1px rgba(74, 61, 49, 0.705) solid;
   border-radius: 3px;
   height: 100%;
   position: absolute;
@@ -235,6 +332,7 @@ main{
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 'Roboto', sans-serif;
 }
 
 .pages__read{
