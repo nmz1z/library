@@ -20,7 +20,7 @@ const sample = [
       pages: 300,
     },
     status: {
-      current: 'Plan to read',
+      current: 'Not started',
       pages: 50,
     },
     id: 'S02',
@@ -33,7 +33,7 @@ const sample = [
       pages: 330,
     },
     status: {
-      current: 'Read',
+      current: 'Finished',
       pages: 330,
     },
     id: 'S03',
