@@ -66,13 +66,13 @@ main{
 }
 
 .button__add-book{
-  margin-bottom: 15px;
+  margin: 45px auto 0;
   padding: 10px;
   cursor: pointer;
   width: 150px;
   border-radius: 5px;
   border: unset;
-  background-color: rgba(212, 212, 212, 0.628);
+  background-color: rgb(187, 187, 187);
   font-family: 'Roboto', sans-serif;
   font-weight: bolder;
   font-size: large;
@@ -105,23 +105,31 @@ main{
   -ms-user-select: none;
   user-select: none;
 }
+.all{
+  background-color: rgb(63, 63, 63);
+}
 .finished{
   color: green;
   border-color: green;
+  background-color: rgb(0, 53, 0);
 }
 .in-progress{
   color: goldenrod;
   border-color: goldenrod;
+  background-color: rgb(107, 81, 16);
 }
 .not-started{
-  color: rgb(180, 0, 0);
-  border-color: rgb(180, 0, 0);
+  color: red;
+  border-color: red;
+  background-color: rgb(83, 0, 0);
 }
-
+.unselected{
+  background-color: unset;
+}
 
 /* MODAL */
 .hidden{
-  /* visibility: hidden; */
+  visibility: hidden;
 }
 .modal__mask{
   top: 0;
