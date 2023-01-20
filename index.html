@@ -8,20 +8,19 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500&family=Roboto+Slab&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,300;8..144,400&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/1d631eaa19.js" crossorigin="anonymous"></script>
   <title>Document</title>
 </head>
 
 <body>
-  <!-- MODAL WINDOW -->
+
   <div class="modal__mask hidden">
     <div class="modal__window">
       <button class="modal__close-button" id="modal-close">
         <i class="fa-regular fa-circle-xmark"></i>
       </button>
-      <h2 class="modal" id="modal-header">New book</h2>
+      <h2 class="modal__header" id="modal-header">New book</h2>
       <p class="modal__text">Title</p>
       <input type="text" class="modal__input-text" id="modal-title">
       <p class="modal__text">Author</p>
@@ -29,70 +28,44 @@
       <p class="modal__text">Image link (optional)</p>
       <input type="text" class="modal__input-text" id="modal-image">
       <p class="modal__text">Pages</p>
-      <input type="number" min="1" max="9999" class="modal__input-number" id="modal-pages">
+      <input
+        onkeydown="if(event.key==='.' || event.key==='+'){event.preventDefault();}"
+        onpaste="let pasteData = event.clipboardData.getData('text'); if(pasteData){pasteData.replace(/[^0-9]*/g,'');} "
+        type="number"
+        min="1" max="9999" class="modal__input-number" id="modal-pages">
       <button class="modal__confirm-button" id="modal-confirm">
         CONFIRM
       </button>
+      <p class="modal__warning" id="modal-warning">Please fill all required fields.</p>
     </div>
   </div>
+
   <header class="header">
-    <h1 >Library App</h1>
+    <div class="header__bar">
+      <img src="img/logo.png" alt="" class="header__logo">
+      <h1 class="header__text">Library App</h1>
+    </div>
+    <button class="button__add-book">Add book</button>
+    <div class="header__menu">
+      <div class="header-menu__filters">
+        <h4 class="filter-menu__text">Filters</h4>
+        <div class="filter">All</div>
+        <div class="filter finished">Finished</div>
+        <div class="filter in-progress">In progress</div>
+        <div class="filter not-started">Not started</div>
+      </div>
+    </div>
   </header>
+
   <main>
-    <button class="button__add-book">ADD</button>
     <div class="container">
-      <!-- injected elements -->
-      <!-- <div class="book">
-        <div class="page1"></div>
-        <div class="page2"></div>
-        <div class="page3"></div>
-        <div class="back-cover"></div>
-        <div class="book__buttons-container">
-          <button class="book__edit-button">
-            <i class="fa-solid fa-pen"></i>
-          </button>
-          <button class="book__delete-button">
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </div>
-        <div class="book__header">
-          <h3 class="book__title">The Lord of the Rings</h3>
-          <p class="book__author">J. R. R. Tolkien</p>
-        </div>
-        <div class="book__cover">
-          <img class="book__cover-image"
-            src="https://m.media-amazon.com/images/I/51kfFS5-fnL._AC_SY1000_.jpg"
-            />
-        </div>
-        <div class="book__pages-ui">
-          <p class="book__pages-read">Read:</p>
-          <div class="pages__read">
-            <button class="pages-read__minus-btn">
-              <i class="fa-solid fa-minus"></i>
-            </button>
-            <input
-            type="number"
-            class="pages__read-input"
-            onkeydown="if(event.key==='.' || event.key==='+'){event.preventDefault();}" onpaste="let pasteData = event.
-            clipboardData.getData('text'); if(pasteData){pasteData.replace(/[^0-9]*/g,'');} "
-            />
-            <button class="pages-read__plus-btn">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
-          <div class="pages__progress">
-            <div class="pages__progress-read">11</div>
-            <div class="pages__progress-bar">
-              <div class="progress-bar__progress"></div>
-            </div>
-            <div class="pages__progress-total">1150</div>
-          </div>
-          <div class="pages__progress-status">In progress</div>
-        </div>
-      </div> -->
+      <!--  -->
     </div>
   </main>
-  <footer></footer>
+
+  <footer>
+
+  </footer>
 </body>
 <script src="data/sample.js"></script>
 <script src="app.js"></script>
