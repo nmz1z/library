@@ -136,9 +136,7 @@ function drawBook(book) {
   const page3 = setUpElement('div', 'page3', bookDiv);
   const backCover = setUpElement('div', 'back-cover', bookDiv);
   // .book__buttons-container
-  const btnContainer = document.createElement('div');
-  btnContainer.classList.add('book__buttons-container');
-  bookDiv.appendChild(btnContainer);
+  const btnContainer = setUpElement('div', 'book__buttons-container', bookDiv)
   // button.book__edit-button
   const editBtn = document.createElement('button');
   editBtn.classList.add('book__edit-button');
