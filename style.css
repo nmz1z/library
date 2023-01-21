@@ -3,26 +3,29 @@
 }
 
 :root{
-  --bg: rgba(0, 0, 0, 0.935);
+  --bg: rgba(5, 5, 5, 0.95);
   --book: rgba(112, 112, 112, 0.418);
   --hla: rgb(151, 151, 151);
-  --hlb: rgba(209, 209, 209, 0.882);
+  --hlb: rgb(202, 202, 202);
   --hlc: rgb(206, 206, 206);
 
   --mask: rgba(34, 34, 34, 0.798);
   --modal: rgb(15, 15, 15);
 
-  --grad1: rgba(20, 20, 20, 0.95);
-  --grad2: rgba(20, 20, 20, 0.75);
+  --grad1: rgba(13, 13, 13, 0.95);
+  --grad2: rgba(13, 13, 13, 0.85);
 }
 body, html{
   margin: 0;
   padding: 0;
 }
+
 body{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   position: relative;
   font-family: 'Roboto Serif', serif;
-  font-weight: 400;
   background: linear-gradient(360deg, var(--bg) 20%, var(--bg) 50%),
   url(img/background.jpg);
 }
@@ -33,6 +36,7 @@ main{
 }
 
 .header{
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,11 +45,11 @@ main{
 }
 
 .header__bar{
+  margin-right: auto;
   margin-top: 15px;
   padding-left: 15px;
-  width: 100%;
+  flex-grow: 1;
   display: flex;
-  align-items: flex-start;
 }
 .header__logo{
   height: 60px;
@@ -215,15 +219,16 @@ main{
 
 
 
+/** MAIN SECTION **/
 .container{
   padding-left: 30px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   max-width: 90%;
   row-gap: 45px;
+  margin-bottom: 60px;
 }
 
-/** BOOK **/
 .book{
   width: 280px;
   aspect-ratio: 3/4;
@@ -343,7 +348,6 @@ main{
 }
 
 
-/* book-progress */
 .book__pages-ui{
   margin-top: auto;
   margin-bottom: 10px;
@@ -353,14 +357,12 @@ main{
   align-items: center;
   font-family: 'Roboto', sans-serif;
 }
-
 .pages__read{
   width: 45%;
   display: flex;
   align-items: baseline;
   margin-bottom: 20px;
   justify-content: space-between;
-
 }
 .pages__read-input{
   height: 100%;
@@ -379,7 +381,6 @@ main{
   color: var(--hlb);
   cursor: pointer;
 }
-
 .pages__progress{
   height: 15px;
   font-size: 13px;
@@ -390,7 +391,6 @@ main{
   justify-content: center;
   align-items: center;
 }
-
 .pages__progress-bar{
   display: flex;
   height: 100%;
@@ -419,3 +419,24 @@ main{
 .pages__read-input {
   -moz-appearance: textfield;
  }
+
+
+.footer{
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  color: var(--hlb);
+  font-family: 'Roboto', 'serif-sans';
+ }
+ .footer__icons{
+  font-size: x-large;
+  margin: 0 20px;
+  gap: 10px;
+  align-items: center;
+  display: flex;
+ }
+.footer__icon:visited,
+.footer__icon:hover{
+  color: var(--hlb);
+}
