@@ -21,7 +21,7 @@ const sample = [
     },
     status: {
       current: 'Not started',
-      pages: 50,
+      pages: 0,
     },
     id: 'S02',
   },
@@ -37,5 +37,18 @@ const sample = [
       pages: 330,
     },
     id: 'S03',
+  },
+  {
+    data:{
+      title: 'Brave New World',
+      author: 'Aldous Huxley',
+      image: "https://m.media-amazon.com/images/I/81zE42gT3xL.jpg",
+      pages: 260,
+    },
+    status: {
+      current: 'In Progress',
+      pages: 75,
+    },
+    id: 'S04',
   },
 ]
