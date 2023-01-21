@@ -4,7 +4,7 @@ const sample = [
       title: 'The Lord of the Rings',
       author: 'J. R. R. Tolkien',
       image: "https://m.media-amazon.com/images/I/51kfFS5-fnL._AC_SY1000_.jpg" ,
-      pages: 1200,
+      pages: 1211,
     },
     status: {
       current: 'In progress',
@@ -17,7 +17,7 @@ const sample = [
       title: 'Neuromancer',
       author: 'Willian Gibson',
       image: "https://m.media-amazon.com/images/I/91Bx5ilP+EL.jpg",
-      pages: 300,
+      pages: 296,
     },
     status: {
       current: 'Not started',
@@ -46,9 +46,35 @@ const sample = [
       pages: 260,
     },
     status: {
-      current: 'In Progress',
+      current: 'In progress',
       pages: 75,
     },
     id: 'S04',
+  },
+  {
+    data:{
+      title: 'Fahrenheit 451',
+      author: 'Ray Bradbury',
+      image: "https://m.media-amazon.com/images/I/41qI9quGIdL.jpg",
+      pages: 169,
+    },
+    status: {
+      current: 'Finished',
+      pages: 169,
+    },
+    id: 'S05',
+  },
+  {
+    data:{
+      title: 'The Hitchhiker\'s Guide to the Galaxy',
+      author: 'Ray Bradbury',
+      image: "https://m.media-amazon.com/images/I/81XSN3hA5gL.jpg",
+      pages: 224,
+    },
+    status: {
+      current: 'Not started',
+      pages: 0,
+    },
+    id: 'S06',
   },
 ]
