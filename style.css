@@ -10,7 +10,7 @@
   --hlc: rgb(34, 34, 34);
 
   --mask: rgba(0, 0, 0, 0.798);
-  --modal: rgb(61, 61, 61);
+  --modal: rgb(90, 90, 90);
 
   --grad1: rgba(20, 20, 20, 0.95);
   --grad2: rgba(20, 20, 20, 0.75);
@@ -20,6 +20,7 @@ body, html{
   padding: 0;
 }
 body{
+  position: relative;
   font-family: 'Roboto Serif', serif;
   font-weight: 400;
   background: linear-gradient(360deg, var(--bg) 20%, var(--bg) 50%),
@@ -155,13 +156,12 @@ main{
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
 
   border-radius: 10px;
   background-color: var(--modal);
 }
 .modal__header{
-  margin-top: 4px;
+  margin-top: 50px;
 }
 .modal__window input{
   border-radius: 5px;
@@ -184,13 +184,18 @@ main{
   font-family: 'Roboto', 'sans-serif';
   font-size: large;
   font-weight: bolder;
+  cursor: pointer;
 }
 .modal__warning{
   color: red;
   font-weight: 300;
 }
 .modal__close-button{
+  cursor: pointer;
   position: absolute;
+  background-color: unset;
+  border: unset;
+  font-size: x-large;
   top: 5px;
   right: 5px;
 }
@@ -203,15 +208,13 @@ main{
 .container{
   padding-left: 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(345px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   max-width: 90%;
   row-gap: 45px;
 }
 
-/* __ BOOK ___ */
-
+/** BOOK **/
 .book{
-
   width: 280px;
   aspect-ratio: 3/4;
   position: relative;
@@ -262,7 +265,6 @@ main{
   transform: translate(11px, -18px);
 
 }
-
 .book__buttons-container{
   display: flex;
   gap: 5px;
@@ -287,7 +289,6 @@ main{
 .book__header{
   display: flex;
   flex-direction: column;
-  /* height: 150px; */
 }
 
 .book__title{
@@ -368,12 +369,6 @@ main{
   color: var(--hlb);
   cursor: pointer;
 }
-/* .pages-read__plus-btn{
-  color: rgb(26, 170, 26);
-}
-.pages-read__minus-btn{
-  color: red;
-} */
 
 .pages__progress{
   height: 15px;
@@ -414,9 +409,3 @@ main{
 .pages__read-input {
   -moz-appearance: textfield;
  }
-
-/* TEMPORARY */
-button{
-  width: fit-content;
-  height: fit-content;
-}
