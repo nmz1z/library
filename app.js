@@ -218,54 +218,40 @@ function drawBook(book) {
   const editBtn = setUpElement('button', 'book__edit-button', btnContainer);
   const editIcon = setUpElement('i', 'fa-solid fa-pen', editBtn);
 
-  const removeBtn = document.createElement('button');
-  removeBtn.classList.add('book__delete-button');
-  btnContainer.appendChild(removeBtn);
-  // fa-regular fa-circle-xmark
-  const removeIcon = document.createElement('i');
-  removeIcon.classList.add('fa-solid');
-  removeIcon.classList.add('fa-trash');
-  removeBtn.appendChild(removeIcon);
-  // .book__header
-  const bookHeader = document.createElement('div');
-  bookHeader.classList.add('book__header');
-  bookDiv.appendChild(bookHeader)
-  // h2.book__title
-  const title = document.createElement('h3');
-  title.classList.add('book__title');
-  bookHeader.appendChild(title);
+  const removeBtn = setUpElement('button', 'book__delete-button', btnContainer);
+  const removeIcon =   setUpElement('i', 'fa-solid fa-trash', removeBtn);
+
+  // Book Header
+  const bookHeader =  setUpElement('div', 'book__header', bookDiv);
+  
+  const title = setUpElement('h3', 'book__title', bookHeader);
   title.textContent = config.title;
-  // h3.book__author
-  const author = document.createElement('p');
-  author.classList.add('book__author');
-  bookHeader.appendChild(author);
+
+  const author = setUpElement('p', 'book__author', bookHeader);
   author.textContent = config.author;
-  // .book__cover
-  const cover = document.createElement('div');
-  cover.classList.add('book__cover');
-  bookDiv.appendChild(cover);
-  // img.book__cover-image
-  const image = document.createElement('img');
-  image.classList.add('book__cover-image')
-  cover.appendChild(image);
+
+  // Cover
+  const cover = setUpElement('div', 'book__cover', bookDiv);
+  const image = setUpElement('img', 'book__cover-image', cover);
   image.src = config.image;
-  // p.book__pages-ui
+
+  // UI
   const pagesUI = setUpElement('div', 'book__pages-ui', bookDiv);
-  // pages header
-  const readText = document.createElement('p');
-  readText.classList.add('book__pages-read');
-  pagesUI.appendChild(readText);
+  // 'Read' Input
+  const readText =  setUpElement('p', 'book__pages-read', pagesUI);
   readText.textContent = 'Read:';
 
-  // 'Read' Input
   const pagesRead =  setUpElement('div', 'pages__read', pagesUI);
+
   const minusBtn = setUpElement('button', 'pages-read__minus-btn', pagesRead);
   const minusIcon = setUpElement('i', 'fa-solid fa-minus', minusBtn);
+
   const readInput = setUpElement('input', 'pages__read-input', pagesRead);
   readInput.value = book.status.pages;
   readInput.type = "number";
   readInput.min = "0"
   readInput.max = book.data.pages;
+  
   const plusBtn = setUpElement('button', 'pages-read__plus-btn', pagesRead);
   const plusIcon = setUpElement('i', 'fa-solid fa-plus', plusBtn);
 
