@@ -1,20 +1,20 @@
-// variables
+// INIT
 const modalWindow = {
-  mode: '',  // flag: 'edit' / 'add'
+  mode: '', //modal window mode: edit/add book
   input: {
     title: document.getElementById('modal-title'),
     author: document.getElementById('modal-author'),
     image: document.getElementById('modal-image'),
     pages: document.getElementById('modal-pages'),
   },
+  ref: {
+    dom: null,
+    obj: null,
+  },
   body: document.querySelector('.modal__mask'),
   header: document.getElementById('modal-header'),
   closeButton: document.getElementById('modal-close'),
   confirmButton: document.getElementById('modal-confirm'),
-  ref: {
-    dom: null,
-    obj: null,
-  }
 };
 
 let filters = ['All'];
@@ -36,7 +36,7 @@ for (const item of filterButtons) {
   item.addEventListener('click', handleFilterClick);
 }
 
-// INIT
+// functions
 if(!localStorage.getItem('accessed')){
   addSample(sample);
   localStorage.setItem('accessed', true);
@@ -44,7 +44,7 @@ if(!localStorage.getItem('accessed')){
 setupLibrary();
 
 
-// FUNCTIONS
+// # FUNCTIONS
 
 function setupLibrary(){
   const library = loadLocalStorage();
@@ -208,7 +208,34 @@ function authenticate(){
   return auth;
 }
 
-// 'DRAW' FUNCTION (long af D:)
+// # STORAGE METHODS
+function loadLocalStorage(){
+  return localStorage.getItem("library")
+  ? JSON.parse(localStorage.getItem("library"))
+  : [];
+}
+
+function addToLocalStorage(book){
+  let library = loadLocalStorage();
+  library.push(book);
+  localStorage.setItem("library", JSON.stringify(library));
+}
+
+function removeFromStorage(book){
+  let library = loadLocalStorage();
+  const storage = library.filter(
+    element => book.id !== element.id
+  );
+  localStorage.setItem("library", JSON.stringify(storage));
+}
+
+function addSample(){
+  let library = loadLocalStorage();
+  library = [...sample];
+  localStorage.setItem("library", JSON.stringify(library));
+}
+
+// # DRAW METHODS
 function setUpElement(type, className, parent){
   const element = document.createElement(type);
   element.className = className;
@@ -216,6 +243,7 @@ function setUpElement(type, className, parent){
   return element;
 }
 
+// long af function D:
 function drawBook(book) {
   const config = book.data;
 
@@ -298,7 +326,7 @@ function drawBook(book) {
     status.style.color = 'goldenrod';
   }
 
-  // book events
+  //add events
   removeBtn.addEventListener('click', e => {
     e.currentTarget.parentElement.parentElement.remove();
     removeFromStorage(book);
@@ -389,30 +417,3 @@ function updateStatus(target, current, book){
   localStorage.setItem("library", JSON.stringify(storage));
 }
 
-
-//  STORAGE methods
-function loadLocalStorage(){
-  return localStorage.getItem("library")
-  ? JSON.parse(localStorage.getItem("library"))
-  : [];
-}
-
-function addToLocalStorage(book){
-  let library = loadLocalStorage();
-  library.push(book);
-  localStorage.setItem("library", JSON.stringify(library));
-}
-
-function removeFromStorage(book){
-  let library = loadLocalStorage();
-  const storage = library.filter(
-    element => book.id !== element.id
-  );
-  localStorage.setItem("library", JSON.stringify(storage));
-}
-
-function addSample(){
-  let library = loadLocalStorage();
-  library = [...sample];
-  localStorage.setItem("library", JSON.stringify(library));
-}
