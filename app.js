@@ -76,8 +76,7 @@ for (const item of filterButtons) {
 
 // >> MODAL WINDOW
 const modalWindow = {
-  body: document.querySelector('.modal__mask'),
-  // input
+  mode: '',  // flag: 'edit' / 'add'
   input: {
     title: document.getElementById('modal-title'),
     author: document.getElementById('modal-author'),
@@ -85,12 +84,11 @@ const modalWindow = {
     pages: document.getElementById('modal-pages'),
   },
   // text
+  body: document.querySelector('.modal__mask'),
   header: document.getElementById('modal-header'),
-  // buttons
   closeButton: document.getElementById('modal-close'),
   confirmButton: document.getElementById('modal-confirm'),
   // other
-  mode: '',
   ref: {
     dom: null,
     obj: null,
@@ -117,6 +115,7 @@ function openModal(flag, object, e){
 
 function closeModal(){
   modalWindow.body.classList.toggle('hidden');
+  modalWindow.body.querySelector('.modal__warning').classList.add('hidden');
   // reset values
   for (let key in modalWindow.input) {
     modalWindow.input[key].value = '';
@@ -147,6 +146,9 @@ function addBook(config){
 }
 
 function editBook(){
+  if(!authenticate()){
+    return;
+  }
   const object = modalWindow.ref.obj;
   let domElement = modalWindow.ref.dom;
   // update DOM
@@ -182,6 +184,9 @@ function authenticate(){
       modalWindow.input[key].style.backgroundColor = 'white'
     }
   }
+  if(!auth){
+    modalWindow.body.querySelector('.modal__warning').classList.remove('hidden');
+  }
   return auth;
 }
 
@@ -195,27 +200,24 @@ function setUpElement(type, className, parent){
 //
 function drawBook(book) {
   const config = book.data;
-  // .book
+
+  // Book
   const bookDiv = document.createElement('div');
   bookDiv.classList.add('book');
   booksContainer.appendChild(bookDiv);
-  // .page[n] + .back-cover
+
+  // Decoration (Pages + Back Cover)
   const page1 = setUpElement('div', 'page1', bookDiv);
   const page2 = setUpElement('div', 'page2', bookDiv);
   const page3 = setUpElement('div', 'page3', bookDiv);
   const backCover = setUpElement('div', 'back-cover', bookDiv);
-  // .book__buttons-container
-  const btnContainer = setUpElement('div', 'book__buttons-container', bookDiv)
-  // button.book__edit-button
-  const editBtn = document.createElement('button');
-  editBtn.classList.add('book__edit-button');
-  btnContainer.appendChild(editBtn);
-  // i.fa-solid fa-pencil
-  const editIcon = document.createElement('i');
-  editIcon.classList.add('fa-solid');
-  editIcon.classList.add('fa-pen');
-  editBtn.appendChild(editIcon);
-  // button.book__remove-button
+
+  // Buttons
+  const btnContainer = setUpElement('div', 'book__buttons-container', bookDiv);
+
+  const editBtn = setUpElement('button', 'book__edit-button', btnContainer);
+  const editIcon = setUpElement('i', 'fa-solid fa-pen', editBtn);
+
   const removeBtn = document.createElement('button');
   removeBtn.classList.add('book__delete-button');
   btnContainer.appendChild(removeBtn);
@@ -245,45 +247,41 @@ function drawBook(book) {
   // img.book__cover-image
   const image = document.createElement('img');
   image.classList.add('book__cover-image')
-  image.src = config.image;
   cover.appendChild(image);
+  image.src = config.image;
   // p.book__pages-ui
   const pagesUI = setUpElement('div', 'book__pages-ui', bookDiv);
   // pages header
   const readText = document.createElement('p');
   readText.classList.add('book__pages-read');
-  readText.textContent = 'Read:';
   pagesUI.appendChild(readText);
+  readText.textContent = 'Read:';
 
-  // 'Read' Section
+  // 'Read' Input
   const pagesRead =  setUpElement('div', 'pages__read', pagesUI);
-
   const minusBtn = setUpElement('button', 'pages-read__minus-btn', pagesRead);
   const minusIcon = setUpElement('i', 'fa-solid fa-minus', minusBtn);
-
   const readInput = setUpElement('input', 'pages__read-input', pagesRead);
   readInput.value = book.status.pages;
   readInput.type = "number";
   readInput.min = "0"
   readInput.max = book.data.pages;
-
   const plusBtn = setUpElement('button', 'pages-read__plus-btn', pagesRead);
   const plusIcon = setUpElement('i', 'fa-solid fa-plus', plusBtn);
 
-  // .pages__progress (@pagesUI)
+  // Progress Section
   const pagesProgress = setUpElement('div', 'pages__progress', pagesUI);
-  // .pages__progress-read
+
   const progressRead = setUpElement('div', 'pages__progress-read', pagesProgress);
-  progressRead.textContent = 0;
-  // .pages__progress-bar
+  progressRead.textContent = book.status.pages;
+  
   const barContainer = setUpElement('div', 'pages__progress-bar', pagesProgress);
-  //
   const barProgress = setUpElement('div', 'progress-bar__progress', barContainer);
   barProgress.style.width = `${100*book.status.pages/book.data.pages}%`;
-  // .pages__progress-total
+
   const progressTotal = setUpElement('div', 'pages__progress-total', pagesProgress);
   progressTotal.textContent = config.pages;
-  // .pages__progress-status (@pagesUI)
+
   const status = setUpElement('div', 'pages__progress-status', pagesUI);
   if(+book.status.pages === 0){
     status.textContent = 'Not started';
@@ -295,15 +293,15 @@ function drawBook(book) {
     status.textContent = 'In progress';
     status.style.color = 'goldenrod';
   }
-  // draw events
+
+  // Book Events
   removeBtn.addEventListener('click', e => {
     e.currentTarget.parentElement.parentElement.remove();
     removeFromStorage(book);
   });
+
   editBtn.addEventListener('click', (e) => {openModal('edit', book, e);});
 
-  readInput.addEventListener('change', (e) => {updateReadPages(book, e.currentTarget)});
-  // these 2 prevents unwanted input
   readInput.addEventListener('paste', (e) =>{
     let pasteData = e.clipboardData.getData('text');
     if(pasteData){pasteData.replace(/[^0-9]*/g,'');}
@@ -311,6 +309,7 @@ function drawBook(book) {
   readInput.addEventListener('keydown', (e) => {
     if(e.key==='.' || e.key==='+' || e.key === '-'){e.preventDefault();}
   });
+  readInput.addEventListener('change', (e) => {updateReadPages(book, e.currentTarget)});
 
   plusBtn.addEventListener('click', () => {
     readInput.value = +readInput.value + 1;
@@ -323,6 +322,7 @@ function drawBook(book) {
   });
 }
 
+// 'Read' input methods
 function updateReadPages(book, target){
   let value = target.value;
   if(+value > book.data.pages){
@@ -346,6 +346,13 @@ function updateReadPages(book, target){
 
   updtadeProgressBar(target, +value, book.data.pages);
   updateStatus(target, +value, book);
+  updatePagesNumber(target, +value);
+}
+
+function updatePagesNumber(target, value){
+  const ui = target.parentElement.parentElement;
+  const number = ui.querySelector('.pages__progress-read');
+  number.textContent = value;
 }
 
 function updtadeProgressBar(target, current, total){
@@ -356,7 +363,6 @@ function updtadeProgressBar(target, current, total){
 }
 
 function updateStatus(target, current, book){
-
   const status = target.parentElement.parentElement.querySelector('.pages__progress-status');
   if(current === 0){
     status.textContent = 'Not started';
@@ -380,7 +386,7 @@ function updateStatus(target, current, book){
 }
 
 
-// ** Storage Functions
+//  Storage Functions
 function loadLocalStorage(){
   return localStorage.getItem("library")
   ? JSON.parse(localStorage.getItem("library"))
@@ -401,7 +407,7 @@ function removeFromStorage(book){
   localStorage.setItem("library", JSON.stringify(storage));
 }
 
-function addSample(array){
+function addSample(){
   let library = loadLocalStorage();
   library = [...sample];
   localStorage.setItem("library", JSON.stringify(library));
