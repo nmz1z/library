@@ -1,3 +1,51 @@
+// variables
+const modalWindow = {
+  mode: '',  // flag: 'edit' / 'add'
+  input: {
+    title: document.getElementById('modal-title'),
+    author: document.getElementById('modal-author'),
+    image: document.getElementById('modal-image'),
+    pages: document.getElementById('modal-pages'),
+  },
+  body: document.querySelector('.modal__mask'),
+  header: document.getElementById('modal-header'),
+  closeButton: document.getElementById('modal-close'),
+  confirmButton: document.getElementById('modal-confirm'),
+  ref: {
+    dom: null,
+    obj: null,
+  }
+};
+
+let filters = ['All'];
+const booksContainer = document.querySelector('.container');
+const addButton = document.querySelector('.button__add-book');
+
+// events
+addButton.addEventListener('click', () => {openModal('add')});
+modalWindow.closeButton.addEventListener('click', closeModal);
+modalWindow.confirmButton.addEventListener('click', (e) => {
+  if(modalWindow.mode === 'edit'){
+    editBook();
+  }else{
+    addBook(modalWindow.input);
+  }
+});
+const filterButtons = document.querySelectorAll('.filter');
+for (const item of filterButtons) {
+  item.addEventListener('click', handleFilterClick);
+}
+
+// INIT
+if(!localStorage.getItem('accessed')){
+  addSample(sample);
+  localStorage.setItem('accessed', true);
+};
+setupLibrary();
+
+
+// FUNCTIONS
+
 function setupLibrary(){
   const library = loadLocalStorage();
   if(library.length > 0){
@@ -6,7 +54,6 @@ function setupLibrary(){
 }
 
 // >> FILTERS
-let filters = ['All'];
 
 function handleFilterClick(event){
   const filter = event.currentTarget.textContent;
@@ -35,7 +82,6 @@ function toggleAll(target){
 }
 
 function toggleFilter(target){
-  // disable all
   filters = filters.filter(item => item !== 'All');
   target.parentElement.querySelector('.all').classList.add('unselected');
 
@@ -68,33 +114,7 @@ function redrawLibrary(){
   drawArray.forEach(book => drawBook(book));
 }
 
-//events
-const filterButtons = document.querySelectorAll('.filter');
-for (const item of filterButtons) {
-  item.addEventListener('click', handleFilterClick);
-}
-
-// >> MODAL WINDOW
-const modalWindow = {
-  mode: '',  // flag: 'edit' / 'add'
-  input: {
-    title: document.getElementById('modal-title'),
-    author: document.getElementById('modal-author'),
-    image: document.getElementById('modal-image'),
-    pages: document.getElementById('modal-pages'),
-  },
-  // text
-  body: document.querySelector('.modal__mask'),
-  header: document.getElementById('modal-header'),
-  closeButton: document.getElementById('modal-close'),
-  confirmButton: document.getElementById('modal-confirm'),
-  // other
-  ref: {
-    dom: null,
-    obj: null,
-  }
-};
-
+// MODAL WINDOW methods
 function openModal(flag, object, e){
   modalWindow.mode = flag;
   if(modalWindow.mode === 'edit'){
@@ -172,7 +192,6 @@ function editBook(){
   closeModal();
 }
 
-// function Auth
 function authenticate(){
   let auth = true;
   for (const key in modalWindow.input) {
@@ -190,6 +209,7 @@ function authenticate(){
   return auth;
 }
 
+// 'DRAW' FUNCTION (long af D:)
 function setUpElement(type, className, parent){
   const element = document.createElement(type);
   element.className = className;
@@ -197,7 +217,6 @@ function setUpElement(type, className, parent){
   return element;
 }
 
-//
 function drawBook(book) {
   const config = book.data;
 
@@ -251,7 +270,7 @@ function drawBook(book) {
   readInput.type = "number";
   readInput.min = "0"
   readInput.max = book.data.pages;
-  
+
   const plusBtn = setUpElement('button', 'pages-read__plus-btn', pagesRead);
   const plusIcon = setUpElement('i', 'fa-solid fa-plus', plusBtn);
 
@@ -308,7 +327,7 @@ function drawBook(book) {
   });
 }
 
-// 'Read' input methods
+// USER INPUT related methods
 function updateReadPages(book, target){
   let value = target.value;
   if(+value > book.data.pages){
@@ -372,7 +391,7 @@ function updateStatus(target, current, book){
 }
 
 
-//  Storage Functions
+//  STORAGE methods
 function loadLocalStorage(){
   return localStorage.getItem("library")
   ? JSON.parse(localStorage.getItem("library"))
@@ -398,25 +417,3 @@ function addSample(){
   library = [...sample];
   localStorage.setItem("library", JSON.stringify(library));
 }
-
-// const
-const booksContainer = document.querySelector('.container');
-const addButton = document.querySelector('.button__add-book');
-
-// events
-addButton.addEventListener('click', () => {openModal('add')});
-modalWindow.closeButton.addEventListener('click', closeModal);
-modalWindow.confirmButton.addEventListener('click', (e) => {
-  if(modalWindow.mode === 'edit'){
-    editBook();
-  }else{
-    addBook(modalWindow.input);
-  }
-});
-
-// ** INIT
-if(!localStorage.getItem('accessed')){
-  addSample(sample);
-  localStorage.setItem('accessed', true);
-};
-setupLibrary();
