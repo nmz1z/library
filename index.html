@@ -17,26 +17,28 @@
 
   <div class="modal__mask hidden">
     <div class="modal__window">
-      <button class="modal__close-button" id="modal-close">
-        <i class="fa-regular fa-circle-xmark"></i>
-      </button>
-      <h2 class="modal__header" id="modal-header">New book</h2>
-      <p class="modal__text">Title</p>
-      <input type="text" class="modal__input-text" id="modal-title">
-      <p class="modal__text">Author</p>
-      <input type="text" class="modal__input-text" id="modal-author">
-      <p class="modal__text">Image link (optional)</p>
-      <input type="text" class="modal__input-text" id="modal-image">
-      <p class="modal__text">Pages</p>
-      <input
-        onkeydown="if(event.key==='.' || event.key==='+'){event.preventDefault();}"
-        onpaste="let pasteData = event.clipboardData.getData('text'); if(pasteData){pasteData.replace(/[^0-9]*/g,'');} "
-        type="number"
-        min="1" max="9999" class="modal__input-number" id="modal-pages">
-      <button class="modal__confirm-button" id="modal-confirm">
-        CONFIRM
-      </button>
-      <p class="modal__warning hidden" id="modal-warning">Please fill all required fields.</p>
+      <div class="modal__window-inner">
+        <button class="modal__close-button" id="modal-close">
+          <i class="fa-solid fa-x"></i>
+        </button>
+        <h2 class="modal__header" id="modal-header">New book</h2>
+        <p class="modal__text">Title</p>
+        <input type="text" class="modal__input-text" id="modal-title">
+        <p class="modal__text">Author</p>
+        <input type="text" class="modal__input-text" id="modal-author">
+        <p class="modal__text">Image link (optional)</p>
+        <input type="text" class="modal__input-text" id="modal-image">
+        <p class="modal__text">Pages</p>
+        <input
+          onkeydown="if(event.key==='.' || event.key==='+'){event.preventDefault();}"
+          onpaste="let pasteData = event.clipboardData.getData('text'); if(pasteData){pasteData.replace(/[^0-9]*/g,'');} "
+          type="number"
+          min="1" max="9999" class="modal__input-number" id="modal-pages">
+        <button class="modal__confirm-button" id="modal-confirm">
+          CONFIRM
+        </button>
+        <p class="modal__warning hidden" id="modal-warning">Please fill all required fields.</p>
+      </div>
     </div>
   </div>
 

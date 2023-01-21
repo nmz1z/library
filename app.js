@@ -138,7 +138,7 @@ function closeModal(){
   // reset values
   for (let key in modalWindow.input) {
     modalWindow.input[key].value = '';
-    modalWindow.input[key].style.backgroundColor = 'white';
+    modalWindow.input[key].style.borderColor = 'gray';
   }
 }
 
@@ -196,10 +196,10 @@ function authenticate(){
   for (const key in modalWindow.input) {
     if(key === 'image') continue;
     if(!modalWindow.input[key].value){
-      modalWindow.input[key].style.backgroundColor = 'rgb(180, 0, 0)';
+      modalWindow.input[key].style.borderColor = 'rgb(180, 0, 0)';
       auth = false;
     }else{
-      modalWindow.input[key].style.backgroundColor = 'white'
+      modalWindow.input[key].style.borderColor = 'grey'
     }
   }
   if(!auth){
