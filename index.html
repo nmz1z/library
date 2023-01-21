@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,300;8..144,400&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
   <script src="https://kit.fontawesome.com/1d631eaa19.js" crossorigin="anonymous"></script>
-  <title>Document</title>
+  <title>Library App</title>
 </head>
 
 <body>
@@ -28,7 +29,7 @@
         <input type="text" class="modal__input-text" id="modal-author">
         <p class="modal__text">Image link (optional)</p>
         <input type="text" class="modal__input-text" id="modal-image">
-        <p class="modal__text">Pages</p>
+        <p class="modal__text">Total Pages</p>
         <input
           onkeydown="if(event.key==='.' || event.key==='+'){event.preventDefault();}"
           onpaste="let pasteData = event.clipboardData.getData('text'); if(pasteData){pasteData.replace(/[^0-9]*/g,'');} "
@@ -65,8 +66,16 @@
     </div>
   </main>
 
-  <footer>
-
+  <footer class="footer">
+    <p class="footer__text">nmz1z</p>
+    <div class="footer__icons">
+      <a href="https://github.com/nmz1z" class="footer__icon">
+        <i class="fa-brands fa-github"></i>
+      </a>
+      <a href="https://twitter.com/nmz1z_" class="footer__icon">
+        <i class="fa-brands fa-twitter"></i>
+      </a>
+    </div>
   </footer>
 </body>
 <script src="data/sample.js"></script>
