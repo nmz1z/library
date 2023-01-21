@@ -53,8 +53,7 @@ function setupLibrary(){
   }
 }
 
-// >> FILTERS
-
+// FILTER methods
 function handleFilterClick(event){
   const filter = event.currentTarget.textContent;
   if(filter == 'All'){
@@ -220,18 +219,18 @@ function setUpElement(type, className, parent){
 function drawBook(book) {
   const config = book.data;
 
-  // Book
+  // book
   const bookDiv = document.createElement('div');
   bookDiv.classList.add('book');
   booksContainer.appendChild(bookDiv);
 
-  // Decoration (Pages + Back Cover)
+  // decoration (Pages + Back Cover)
   const page1 = setUpElement('div', 'page1', bookDiv);
   const page2 = setUpElement('div', 'page2', bookDiv);
   const page3 = setUpElement('div', 'page3', bookDiv);
   const backCover = setUpElement('div', 'back-cover', bookDiv);
 
-  // Buttons
+  // buttons
   const btnContainer = setUpElement('div', 'book__buttons-container', bookDiv);
 
   const editBtn = setUpElement('button', 'book__edit-button', btnContainer);
@@ -240,7 +239,7 @@ function drawBook(book) {
   const removeBtn = setUpElement('button', 'book__delete-button', btnContainer);
   const removeIcon =   setUpElement('i', 'fa-solid fa-trash', removeBtn);
 
-  // Book Header
+  // book Header
   const bookHeader =  setUpElement('div', 'book__header', bookDiv);
   
   const title = setUpElement('h3', 'book__title', bookHeader);
@@ -249,14 +248,14 @@ function drawBook(book) {
   const author = setUpElement('p', 'book__author', bookHeader);
   author.textContent = config.author;
 
-  // Cover
+  // cover
   const cover = setUpElement('div', 'book__cover', bookDiv);
   const image = setUpElement('img', 'book__cover-image', cover);
   image.src = config.image;
 
   // UI
   const pagesUI = setUpElement('div', 'book__pages-ui', bookDiv);
-  // 'Read' Input
+  // input
   const readText =  setUpElement('p', 'book__pages-read', pagesUI);
   readText.textContent = 'Read:';
 
@@ -274,7 +273,7 @@ function drawBook(book) {
   const plusBtn = setUpElement('button', 'pages-read__plus-btn', pagesRead);
   const plusIcon = setUpElement('i', 'fa-solid fa-plus', plusBtn);
 
-  // Progress Section
+  // progress section
   const pagesProgress = setUpElement('div', 'pages__progress', pagesUI);
 
   const progressRead = setUpElement('div', 'pages__progress-read', pagesProgress);
@@ -299,7 +298,7 @@ function drawBook(book) {
     status.style.color = 'goldenrod';
   }
 
-  // Book Events
+  // book events
   removeBtn.addEventListener('click', e => {
     e.currentTarget.parentElement.parentElement.remove();
     removeFromStorage(book);
