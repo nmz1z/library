@@ -20,6 +20,7 @@ const modalWindow = {
 let filters = ['All'];
 const booksContainer = document.querySelector('.container');
 const addButton = document.querySelector('.button__add-book');
+modalWindow.input.pages.addEventListener('paste', e => e.preventDefault());
 
 // events
 addButton.addEventListener('click', () => {openModal('add')});
@@ -170,23 +171,46 @@ function editBook(){
   }
   const object = modalWindow.ref.obj;
   let domElement = modalWindow.ref.dom;
-  // update DOM
+  // ## update DOM
   domElement.querySelector('.book__title').textContent = modalWindow.input.title.value;
   domElement.querySelector('.book__author').textContent = modalWindow.input.author.value;
   domElement.querySelector('.book__cover-image').src = modalWindow.input.image.value;
   domElement.querySelector('.pages__progress-total').textContent = modalWindow.input.pages.value;
   domElement.querySelector('.pages__read-input').max = modalWindow.input.pages.value;
-  // update object in localStorage
+  //progress
+  const total = +modalWindow.input.pages.value;
+  const read = domElement.querySelector('.pages__progress-read');
+  const status = domElement.querySelector('.pages__progress-status');
+  const bar = domElement.querySelector('.progress-bar__progress')
+  bar.style.width = `${100*+read.textContent/total}%`;
+  //status
+  if(+read.textContent >= total){
+    read.textContent = total;
+    status.textContent = 'Finished';
+    status.style.color = 'green';
+  }else if(+read.textContent === 0){
+    status.textContent = 'Not started';
+    status.style.color = 'red';
+  }else{
+    status.textContent = 'In progress';
+    status.style.color = 'goldenrod';
+  }
+  
+  // ## update object in localStorage
   const storage = loadLocalStorage();
+
   let library = storage.map(function (item){
     if (item.id === object.id){
         item.data.title = modalWindow.input.title.value;
         item.data.author = modalWindow.input.author.value;
         item.data.image = modalWindow.input.image.value;
         item.data.pages = modalWindow.input.pages.value;
+        item.status.current = status.textContent;
+        item.status.pages = +read.textContent;
       }
       return item;
     });
+
   localStorage.setItem("library", JSON.stringify(library));
   closeModal();
 }
@@ -339,9 +363,10 @@ function drawBook(book) {
     if(pasteData){pasteData.replace(/[^0-9]*/g,'');}
   });
   readInput.addEventListener('keydown', (e) => {
-    if(e.key==='.' || e.key==='+' || e.key === '-'){e.preventDefault();}
+    if(e.key==='.' || e.key==='+' || e.key === '-' || e.key === 'e'){e.preventDefault();}
   });
   readInput.addEventListener('change', (e) => {updateReadPages(book, e.currentTarget)});
+  readInput.addEventListener('paste', e => e.preventDefault());
 
   plusBtn.addEventListener('click', () => {
     readInput.value = +readInput.value + 1;
@@ -416,4 +441,3 @@ function updateStatus(target, current, book){
     });
   localStorage.setItem("library", JSON.stringify(storage));
 }
-
