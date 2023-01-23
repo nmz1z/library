@@ -135,7 +135,8 @@ function openModal(flag, object, e){
 
 function closeModal(){
   modalWindow.body.classList.toggle('hidden');
-  modalWindow.body.querySelectorAll('.modal__warning').classList.add('hidden');
+  modalWindow.body.querySelector('.modal__warning').classList.add('hidden');
+  document.getElementById('modal-warning-2').classList.add('hidden');
   // reset values
   for (let key in modalWindow.input) {
     modalWindow.input[key].value = '';
@@ -186,6 +187,7 @@ function editBook(){
   //status
   if(+read.textContent >= total){
     read.textContent = total;
+    domElement.querySelector('.pages__read-input').value = read.textContent;
     status.textContent = 'Finished';
     status.style.color = 'green';
   }else if(+read.textContent === 0){
@@ -204,7 +206,7 @@ function editBook(){
         item.data.title = modalWindow.input.title.value;
         item.data.author = modalWindow.input.author.value;
         item.data.image = modalWindow.input.image.value;
-        item.data.pages = modalWindow.input.pages.value;
+        item.data.pages = +modalWindow.input.pages.value;
         item.status.current = status.textContent;
         item.status.pages = +read.textContent;
       }
@@ -387,9 +389,12 @@ function drawBook(book) {
 // USER INPUT related methods
 function updateReadPages(book, target){
   let value = target.value;
-  if(+value > book.data.pages){
-    value = book.data.pages;
-    target.value = book.data.pages;
+  const library = loadLocalStorage();
+  const item = library.find(element => element.id === book.id);
+
+  if(+value > item.data.pages){
+    value = item.data.pages;
+    target.value = item.data.pages;
   }
   if(+value <= 0){
     value = 0;
@@ -406,8 +411,8 @@ function updateReadPages(book, target){
   );
   localStorage.setItem("library", JSON.stringify(storage));
 
-  updtadeProgressBar(target, +value, book.data.pages);
-  updateStatus(target, +value, book);
+  updtadeProgressBar(target, +value, item.data.pages);
+  updateStatus(target, +value, item);
   updatePagesNumber(target, +value);
 }
 
