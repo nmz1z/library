@@ -135,7 +135,7 @@ function openModal(flag, object, e){
 
 function closeModal(){
   modalWindow.body.classList.toggle('hidden');
-  modalWindow.body.querySelector('.modal__warning').classList.add('hidden');
+  modalWindow.body.querySelectorAll('.modal__warning').classList.add('hidden');
   // reset values
   for (let key in modalWindow.input) {
     modalWindow.input[key].value = '';
@@ -228,6 +228,11 @@ function authenticate(){
   }
   if(!auth){
     modalWindow.body.querySelector('.modal__warning').classList.remove('hidden');
+  }
+  if(+modalWindow.input.pages.value === 0){
+    document.getElementById('modal-warning-2').classList.remove('hidden');
+    modalWindow.input.pages.style.borderColor = 'rgb(180, 0, 0)';
+    auth = false;
   }
   return auth;
 }
