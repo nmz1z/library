@@ -14,8 +14,7 @@
   <title>Library App</title>
 </head>
 
-<body>
-
+<body> 
   <div class="modal__mask hidden">
     <div class="modal__window">
       <div class="modal__window-inner">
@@ -31,8 +30,7 @@
         <input type="text" class="modal__input-text" id="modal-image">
         <p class="modal__text">Total Pages</p>
         <input
-          onkeydown="if(event.key==='.' || event.key==='+'){event.preventDefault();}"
-          onpaste="let pasteData = event.clipboardData.getData('text'); if(pasteData){pasteData.replace(/[^0-9]*/g,'');} "
+          onkeydown="if(event.key==='.' || event.key==='+' || event.key==='-' || event.key==='e'){event.preventDefault();}"
           type="number"
           min="1" max="9999" class="modal__input-number" id="modal-pages">
         <button class="modal__confirm-button" id="modal-confirm">

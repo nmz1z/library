@@ -148,9 +148,9 @@ main{
 .modal__window{
   margin: 0;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 20vh;
+  left: 50vw;
+  transform: translate(-50%, 0);
 
   width: 30%;
   min-width: 300px;
